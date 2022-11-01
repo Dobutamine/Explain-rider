@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Explain</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CodexMicroORM.Core" Version="1.0.2" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta2" />
+    </ItemGroup>
+
+</Project>

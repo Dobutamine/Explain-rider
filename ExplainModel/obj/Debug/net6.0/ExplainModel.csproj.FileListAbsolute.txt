@@ -1,0 +1,12 @@
+/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/bin/Debug/net6.0/ExplainModel.deps.json
+/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/bin/Debug/net6.0/ExplainModel.dll
+/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/bin/Debug/net6.0/ExplainModel.pdb
+/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/obj/Debug/net6.0/ExplainModel.csproj.AssemblyReference.cache
+/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/obj/Debug/net6.0/ExplainModel.GeneratedMSBuildEditorConfig.editorconfig
+/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/obj/Debug/net6.0/ExplainModel.AssemblyInfoInputs.cache
+/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/obj/Debug/net6.0/ExplainModel.AssemblyInfo.cs
+/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/obj/Debug/net6.0/ExplainModel.csproj.CoreCompileInputs.cache
+/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/obj/Debug/net6.0/ExplainModel.dll
+/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/obj/Debug/net6.0/refint/ExplainModel.dll
+/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/obj/Debug/net6.0/ExplainModel.pdb
+/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/obj/Debug/net6.0/ref/ExplainModel.dll

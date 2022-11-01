@@ -1,0 +1,134 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/timothyantonius/Projects/explain-rider/Explain/ExplainConsole/ExplainConsole.csproj": {}
+  },
+  "projects": {
+    "/Users/timothyantonius/Projects/explain-rider/Explain/ExplainConsole/ExplainConsole.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/timothyantonius/Projects/explain-rider/Explain/ExplainConsole/ExplainConsole.csproj",
+        "projectName": "ExplainConsole",
+        "projectPath": "/Users/timothyantonius/Projects/explain-rider/Explain/ExplainConsole/ExplainConsole.csproj",
+        "packagesPath": "/Users/timothyantonius/.nuget/packages/",
+        "outputPath": "/Users/timothyantonius/Projects/explain-rider/Explain/ExplainConsole/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/timothyantonius/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/ExplainModel.csproj": {
+                "projectPath": "/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/ExplainModel.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "CsvHelper": {
+              "target": "Package",
+              "version": "[30.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.402/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/ExplainModel.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/ExplainModel.csproj",
+        "projectName": "ExplainModel",
+        "projectPath": "/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/ExplainModel.csproj",
+        "packagesPath": "/Users/timothyantonius/.nuget/packages/",
+        "outputPath": "/Users/timothyantonius/Projects/explain-rider/Explain/ExplainModel/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/timothyantonius/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "CodexMicroORM.Core": {
+              "target": "Package",
+              "version": "[1.0.2, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.2-beta2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.402/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
