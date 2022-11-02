@@ -82,7 +82,7 @@ public class Breathing: ICoreModel
             _ti = IeRatio * _breathInterval;   // in seconds
             _te = _breathInterval - _ti;       // in seconds
         }
-
+    
         // check whether it is time to start a breath
         if (_breathTimer > _breathInterval)
         {
@@ -95,11 +95,11 @@ public class Breathing: ICoreModel
             _inspTimer = 0;
             
             // reset the activation curve counter for the inspiration
-            _nccInsp = -1;
+            _nccInsp = 0;
         }
 
         // has the inspiration time elapsed?
-        if (_inspTimer > _ti)
+        if (_inspTimer >= _ti)
         {
             // reset the inspiration timer
             _inspTimer = 0; 
@@ -111,11 +111,11 @@ public class Breathing: ICoreModel
             _expRunning = true;
             
             // reset the activation curve counter for the expiration
-            _nccExp = -1;
+            _nccExp = 0;
         }
 
         // has the expiration time elapsed?
-        if (_expTimer > _te)
+        if (_expTimer >= _te)
         {
             // reset the expiration timer
             _expTimer = 0;
@@ -167,13 +167,13 @@ public class Breathing: ICoreModel
         var t = _model.ModelingStepsize;
         
         // inspiration
-        if (_nccInsp >= 0 && _nccInsp < _ti / t)
+        if (_inspRunning)
         {
             RespMusclePressure = (_nccInsp / (_ti / t)) * RmpGain;
         }
         
         // expiration
-        if (_nccExp >= 0 && _nccExp < _te / t)
+        if (_expRunning)
         {
             RespMusclePressure = ((Math.Pow(Math.E, -4 * (_nccExp / (_te / t))) - EMin4) / (1 - EMin4)) * RmpGain;
         }

@@ -644,9 +644,9 @@
       "RBack": 35000,
       "Rk": 0
     },
-    "OUT": {
-      "Name": "OUT",
-      "Description": "outside air",
+    "MOUTH": {
+      "Name": "MOUTH",
+      "Description": "MOUTHside air",
       "ModelType": "GasCompliance",
       "IsEnabled": true,
       "Vol": 1000000,
@@ -732,8 +732,8 @@
       "ElK": 0
       
     },
-    "TUBINGOUT": {
-      "Name": "TUBINGOUT",
+    "TUBINGMOUTH": {
+      "Name": "TUBINGMOUTH",
       "Description": "ventilator tubing insp",
       "ModelType": "GasCompliance",
       "IsEnabled": false,
@@ -743,8 +743,8 @@
       "ElK": 0
       
     },
-    "VENTOUT": {
-      "Name": "VENTOUT",
+    "VENTMOUTH": {
+      "Name": "VENTMOUTH",
       "Description": "ventilator exp compartment",
       "ModelType": "GasCompliance",
       "IsEnabled": false,
@@ -765,14 +765,14 @@
       "ElK": 0
       
     },
-    "OUT_DS": {
-      "Name": "OUT_DS",
-      "Description": "outside air to dead space",
+    "MOUTH_DS": {
+      "Name": "MOUTH_DS",
+      "Description": "MOUTHside air to dead space",
       "ModelType": "GasResistor",
       "IsEnabled": true,
       "NoFlow": false,
       "NoBackFlow": false,
-      "CompFrom": "OUT",
+      "CompFrom": "MOUTH",
       "CompTo": "DS",
       "Rfor": 25,
       "RBack": 25,
@@ -830,15 +830,15 @@
       "RBack": 10,
       "Rk": 0
     },
-    "TUBINGIN_TUBINGOUT": {
-      "Name": "TUBINGIN_TUBINGOUT",
+    "TUBINGIN_TUBINGMOUTH": {
+      "Name": "TUBINGIN_TUBINGMOUTH",
       "Description": "inspiratory to expiratory tubing",
       "ModelType": "GasResistor",
       "IsEnabled": false,
       "NoFlow": false,
       "NoBackFlow": false,
       "CompFrom": "TUBINGIN",
-      "CompTo": "TUBINGOUT",
+      "CompTo": "TUBINGMOUTH",
       "Rfor": 10,
       "RBack": 10,
       "Rk": 0
@@ -856,15 +856,15 @@
       "RBack": 25,
       "Rk": 0
     },
-    "YPIECE_TUBINGOUT": {
-      "Name": "YPIECE_TUBINGOUT",
+    "YPIECE_TUBINGMOUTH": {
+      "Name": "YPIECE_TUBINGMOUTH",
       "Description": "expiratory tubing to ypiece",
       "ModelType": "GasResistor",
       "IsEnabled": false,
       "NoFlow": false,
       "NoBackFlow": false,
       "CompFrom": "YPIECE",
-      "CompTo": "TUBINGOUT",
+      "CompTo": "TUBINGMOUTH",
       "Rfor": 10,
       "RBack": 10,
       "Rk": 0
@@ -876,8 +876,8 @@
       "IsEnabled": false,
       "NoFlow": false,
       "NoBackFlow": false,
-      "CompFrom": "TUBINGOUT",
-      "CompTo": "VENTOUT",
+      "CompFrom": "TUBINGMOUTH",
+      "CompTo": "VENTMOUTH",
       "Rfor": 50,
       "RBack": 50,
       "Rk": 0
@@ -919,10 +919,10 @@
     },
     "DIFF_DS": {
       "Name": "DIFF_DS",
-      "Description": "diffusor DS to out",
+      "Description": "diffusor DS to MOUTH",
       "ModelType": "Diffusor",
       "CompGas1": "DS",
-      "CompGas2": "OUT",
+      "CompGas2": "MOUTH",
       "IsEnabled": true,
       "DifO2": 0.0001,
       "DifCo2": 0.00015,
@@ -1177,6 +1177,7 @@
       "GasConstant": 62.36367,
       "TempRoom": 20,
       "Patm": 760,
+      "GasSourceComp": ["MOUTH"],
       "TempSettings": [
         {
           "Name": "ALL",
@@ -1191,7 +1192,7 @@
           "Temp": 32
         },
         {
-          "Name": "OUT",
+          "Name": "MOUTH",
           "Temp": 20
         },
         {
@@ -1199,7 +1200,7 @@
           "Temp": 20
         },
         {
-          "Name": "VENTOUT",
+          "Name": "VENTMOUTH",
           "Temp": 20
         },
         {
@@ -1207,7 +1208,7 @@
           "Temp": 20
         },
         {
-          "Name": "TUBINGOUT",
+          "Name": "TUBINGMOUTH",
           "Temp": 20
         },
         {
@@ -1215,21 +1216,33 @@
           "Temp": 20
         }
       ],
-      "DryGasFractions": [
+      "GasCompounds": [
         {
           "Name": "o2",
-          "Fraction": 0.2095
+          "Unit": "mmHg",
+          "Conc": 0,
+          "PPres": 0,
+          "Fract": 0.2095
         },
         {
           "Name": "co2",
+          "Unit": "mmHg",
+          "Conc": 0,
+          "PPres": 0,
           "Fraction": 0.0004
         },
         {
           "Name": "n2",
+          "Unit": "mmHg",
+          "Conc": 0,
+          "PPres": 0,
           "Fraction": 0.7809
         },
         {
-          "Name": "other",
+          "Name": "h2o",
+          "Unit": "mmHg",
+          "Conc": 0,
+          "PPres": 0,
           "Fraction": 0.0092
         }
       ]
@@ -1246,9 +1259,9 @@
       "TargetMinuteVolume": 0.63,
       "TargetTidalVolume": 0.018,
       "VtRrRatio": 0.00038,
-      "IeRatio": 0.3,
+      "IeRatio": 0.30,
       "RespMusclePressure": 0,
-      "RmpGain": 14.0,
+      "RmpGain": 15.0,
       "Comps": ["CHEST_L", "CHEST_R"]
     },
     "intrathoracic_pressure": {
