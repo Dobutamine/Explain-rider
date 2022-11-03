@@ -32,17 +32,20 @@ public class GasCompliance: ICoreModel, ICompliance, IGasCompliance
     public double PO2 { get; set; }
     public double PCO2 { get; set; }
     public double PN2 { get; set; }
+    public double Temp { get; set; }
+    
+    public double FTotal { get; set; }
     public double FH2O { get; set; }
     public double FO2 { get; set; }
     public double FCO2 { get; set; }
     public double FN2 { get; set; }
+    public double FH2ODry { get; set; }
     public double FO2Dry { get; set; }
     public double FCO2Dry { get; set; }
     public double FN2Dry { get; set; }
     
+    public double TempEffect { get; set; }
 
-    public double Temp { get; set; }
-    
     private const double GasConstant = 62.36367; // L·mmHg/mol·K
     
     public GasCompound[] GasCompounds { get; set; }
@@ -82,7 +85,7 @@ public class GasCompliance: ICoreModel, ICompliance, IGasCompliance
         AddWaterVapour();
         
         // calculate the pressure depending on the elastance
-        Pres = ElBase * (1 + ElK * (Vol - Uvol)) * (Vol - Uvol) + Pres0 + PresExt + PresCC + PresAtm + PresMus;
+        Pres = ElBase * (1 + ElK * (Vol - Uvol)) * (Vol - Uvol) + Pres0 + PresExt + PresCC + PresAtm + PresMus + TempEffect;
         
         // calculate the new gas composition of this compliance based on the new pressure and volume.
         CalcGasComposition();
@@ -136,7 +139,7 @@ public class GasCompliance: ICoreModel, ICompliance, IGasCompliance
         _evalTimer += _model.ModelingStepsize;
 
     }
-
+    
     public void AddWaterVapour()
     {
         // calculate the current water vapour pressure of the gas compliance
@@ -156,70 +159,37 @@ public class GasCompliance: ICoreModel, ICompliance, IGasCompliance
 
     public void CalcGasComposition()
     {
-        // we now have the PH2O and the total pressure so we can calculate the FH2O. 
-        CTotal = Pres / (GasConstant * (273.15 + Temp));
-        FH2O = CH2O / CTotal;
+        // calculate CTotal if we want to take temperature into account
+        CTotal= Pres / (GasConstant * (273.15 + Temp));
         
-        // calculate the fractions from the fh2o and the dry fractions.
-        FO2 = FO2Dry * (1 - FH2O);
-        FCO2 = FCO2Dry * (1 - FH2O);
-        FN2 = FN2Dry * (1 - FH2O);
+        // ignore the temperature effect but include water vapour and calculate CTotal using mass balance
+        CTotal = CH2O + CO2 + CCO2 + CN2;
         
-        // calculate the partial pressures from the fractions and current compliance pressure.
-        PO2 = FO2  * Pres;
-        PCO2 = FCO2  * Pres;
-        PN2 = FN2  * Pres;
-        
-        // calculate the concentrations from the fractions and the current compliance total gas concentration.
-        CO2 = FO2  * CTotal;
-        CCO2 = FCO2 * CTotal;
-        CN2 = FN2  * CTotal;
-
+        // calculate the partial pressures
+        PH2O = (CH2O / CTotal) * Pres;
+        PO2 = (CO2 / CTotal) * Pres;
+        PCO2 = (CCO2 / CTotal) * Pres;
+        PN2 = (CN2 / CTotal) * Pres;
     }
-   
-
     public void VolumeIn(double dVol, IGasCompliance compFrom)
-    {
-        // change the volume
-        Vol += dVol;   
-        
-        // calculate the new the dry gas fractions
-        var dFO2 = (compFrom.FO2Dry - FO2Dry) * dVol;
-        FO2Dry = ((FO2Dry * Vol) + dFO2) / Vol;
-        
-        var dFCO2 = (compFrom.FCO2Dry - FCO2Dry) * dVol;
-        FCO2Dry = ((FCO2Dry * Vol) + dFCO2) / Vol;
-        
-        var dFN2 = (compFrom.FN2Dry - FN2Dry) * dVol;
-        FN2Dry = ((FN2Dry * Vol) + dFN2) / Vol;
-
-        // calculate the new h2o concentration
-        var dCH2O = (compFrom.CH2O - CH2O) * dVol;
-        CH2O = ((CH2O * Vol) + dCH2O) / Vol;
-        
-    }
-    public void VolumeInINACTIVE(double dVol, IGasCompliance compFrom)
     {
         // change the volume
         Vol += dVol;
         
-        // change the gasconcentrations
-        var dC = (compFrom.CTotal - CTotal) * dVol;
-        CTotal = ((CTotal * Vol) + dC) / Vol;
+        // change the gas concentrations
+        var dCo2 = (compFrom.CO2 - CO2) * dVol;
+        CO2 = ((CO2 * Vol) + dCo2) / Vol;
         
-        var dCO2 = (compFrom.CO2 - CO2) * dVol;
-        CO2 = ((CO2 * Vol) + dCO2) / Vol;
+        var dCco2 = (compFrom.CCO2 - CCO2) * dVol;
+        CCO2 = ((CCO2 * Vol) + dCco2) / Vol;
         
-        var dCCO2 = (compFrom.CCO2 - CCO2) * dVol;
-        CCO2 = ((CCO2 * Vol) + dCCO2) / Vol;
+        var dCn2 = (compFrom.CN2 - CN2) * dVol;
+        CN2 = ((CN2 * Vol) + dCn2) / Vol;
         
-        var dCN2 = (compFrom.CN2 - CN2) * dVol;
-        CN2 = ((CN2 * Vol) + dCN2) / Vol;
-        
-        var dCH2O = (compFrom.CH2O - CH2O) * dVol;
-        CH2O = ((CH2O * Vol) + dCH2O) / Vol;
+        var dCh2O = (compFrom.CH2O - CH2O) * dVol;
+        CH2O = ((CH2O * Vol) + dCh2O) / Vol;
     }
-
+    
     public double VolumeOut(double dVol)
     {
         // declare a volume which couldn't be removed

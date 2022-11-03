@@ -25,11 +25,9 @@ public class Gas: ICoreModel
         // store a reference to the whole model
         _model = model;
 
-        var pAtm = 760.0;
-        var Temp = 20;
-        
         // set the temperatures of the gas compliances
         var MOUTH = (GasCompliance)_model.Components.Find(i => i.Name == "MOUTH")!;
+        MOUTH.PresAtm = 760.0;
         MOUTH.Temp = 20;
         var DS = (GasCompliance)_model.Components.Find(i => i.Name == "DS")!;
         DS.Temp = 32;
@@ -37,41 +35,53 @@ public class Gas: ICoreModel
         ALL.Temp = 37;
         var ALR = (GasCompliance)_model.Components.Find(i => i.Name == "ALR")!;
         ALR.Temp = 37;
+
+        // calculate the pressure in MOUTH, should be pAtm
+        MOUTH.CalcModel();
+        // the pressure in MOUTH should pAtm
         
+        // STP : Temp 0 (273.15 K), P = 760 mmHg -> 1 mol = 22.41 l
         // set the total gas concentration of the inspired air depending on the pressure and temperature
-        // the inspired air is coming from the MOUTH compliance
-        MOUTH.CTotal = pAtm / (GasConstant * (273.15 + MOUTH.Temp));
         
-        // calculate the water vapour pressure, fraction and concentration depending on the temperature
-        MOUTH.PH2O = CalcWaterVapourPressure(MOUTH.Temp);
-        MOUTH.FH2O = MOUTH.PH2O / pAtm;
-        MOUTH.CH2O = MOUTH.FH2O * MOUTH.CTotal;
+        // Keep concentration constant
+        // P = 760 mmHg at 0 degrees and concentration of 0.04462 mol/l
+        // P = 815 mmHg at 20 degrees and concentration od 0.04462 mol/l 
         
-        // set the gas fractions of the dry part of the inspired air
-        MOUTH.FO2Dry = 0.2095;
+        // Keep pressure constant
+        // CTotal at 0 degrees  = 0.04462 mol/l at pAtm mmHg
+        // CTotal at 20 degrees = 0.04157 mol/l at pAtm mmHg -> this is our baseline inspired air composition
+        MOUTH.CTotal = MOUTH.Pres / (GasConstant * (273.15 + MOUTH.Temp));
+        
+        // Dry air at 20 degrees has FH2O = 0, FO2 = 0.2092, FCO2 = 0.0004, FN2 = 0.7901;
+        MOUTH.FH2ODry = 0;
+        MOUTH.FO2Dry = 0.2092;
         MOUTH.FCO2Dry = 0.0004;
         MOUTH.FN2Dry = 0.7901;
 
-        // set the fractions of the inspired air which has water vapour.
-        MOUTH.FO2 = MOUTH.FO2Dry * (1 - MOUTH.FH2O);
-        MOUTH.FCO2 = MOUTH.FCO2Dry * (1 - MOUTH.FH2O);
-        MOUTH.FN2 = MOUTH.FN2Dry * (1 - MOUTH.FH2O);
+        // calculate the water vapour pressure depending on the temperature
+        // At 20 dgs celsius and 760 mmHg the partial pressure of water vapour is about 17 mmHg (Antoine formula)
+        MOUTH.PH2O = MOUTH.CalcWaterVapourPressure(MOUTH.Temp);
+        MOUTH.FH2O = MOUTH.PH2O / MOUTH.Pres;
+        MOUTH.CH2O = MOUTH.FH2O * MOUTH.CTotal;
         
-        // calculate the concentrations of the gasses
+        // adjust the fractions of the other inspired gasses (O2, CO2, N2)
+        MOUTH.FO2 = MOUTH.FO2Dry  * (1 - MOUTH.FH2O);
+        MOUTH.FCO2 = MOUTH.FCO2Dry  * (1 - MOUTH.FH2O);
+        MOUTH.FN2 = MOUTH.FN2Dry  * (1 - MOUTH.FH2O);
+        // the sum of fh2o + fo2 + fco2 + fn2 should be 1
+
+        // calculate the concentrations of the other inspired gasses
         MOUTH.CO2 = MOUTH.FO2 * MOUTH.CTotal;
         MOUTH.CCO2 = MOUTH.FCO2 * MOUTH.CTotal;
         MOUTH.CN2 = MOUTH.FN2 * MOUTH.CTotal;
+        // the sum of ch2o + co2 + cco2 + cn2 should be the same as CTotal
         
-        // calculate the partial pressures of the gasses
-        MOUTH.PO2 = MOUTH.FO2 * pAtm;
-        MOUTH.PCO2 = MOUTH.FCO2 * pAtm;
-        MOUTH.PN2 = MOUTH.FN2 * pAtm;
-
-        Console.WriteLine("PTotal {0, 10}, FTotal = 1, CTotal = {1} mol/l", pAtm, MOUTH.CTotal);
-        Console.WriteLine("PH2O {0, 10}, FH2O = {1}, CH2O = {2} mol/l", MOUTH.PH2O, MOUTH.FH2O, MOUTH.CH2O);
-        Console.WriteLine("PO2 {0, 10}, FO2 = {1}, CO2 = {2} mol/l", MOUTH.PO2, MOUTH.FO2, MOUTH.CO2);
-        Console.WriteLine("PCO2 {0, 10}, FCO2 = {1}, CCO2 = {2} mol/l", MOUTH.PCO2, MOUTH.FCO2, MOUTH.CCO2);
-
+        // set the partial pressures of the other inspired gasses
+        MOUTH.PO2 = MOUTH.FO2 * MOUTH.Pres;
+        MOUTH.PCO2 = MOUTH.FCO2 * MOUTH.Pres;
+        MOUTH.PN2 = MOUTH.FN2 * MOUTH.Pres;
+        // the sum of pH2o + pO2 + pCo2 + pN2 should be pAtm
+        
         // signal that the model component is initialized
         _initialized = true;
     }
