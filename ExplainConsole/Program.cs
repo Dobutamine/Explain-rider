@@ -17,9 +17,9 @@ var explain = new Model(modelDefinition);
 if (explain.Initialized)
 {
     // add parameter to watch list
-    explain.DataCollector.AddToWatchList("MOUTH", "Po2");
-    explain.DataCollector.AddToWatchList("DS", "Po2");
-    explain.DataCollector.AddToWatchList("ALL", "Po2");
+    explain.DataCollector.AddToWatchList("LV", "Pres");
+    explain.DataCollector.AddToWatchList("AA", "Pres");
+    // explain.DataCollector.AddToWatchList("ALL", "Po2");
     //
     // explain.DataCollector.AddToWatchList("MOUTH", "Pres");
     // explain.DataCollector.AddToWatchList("DS", "Pres");

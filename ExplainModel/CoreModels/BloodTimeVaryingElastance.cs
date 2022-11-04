@@ -9,7 +9,6 @@ public class BloodTimeVaryingElastance: ICoreModel, ICompliance, IBloodComplianc
     public string ModelType { get; set; }  = "";
     public bool IsEnabled { get; set; } = false;
     public double Pres { get; set; }
-    public double PresAtm { get; set; } = 760;
     public double PresMus { get; set; }
     public double Pres0 { get; set; }
     public double PresExt { get; set; }
@@ -67,7 +66,7 @@ public class BloodTimeVaryingElastance: ICoreModel, ICompliance, IBloodComplianc
         PresEs = ElMax * (Vol - Uvol);
 
         // calculate the pressure depending on the elastance
-        Pres = ActFactor * (PresEs - PresEd) + PresEd + Pres0 + PresExt + PresCc + PresAtm + PresMus;
+        Pres = ActFactor * (PresEs - PresEd) + PresEd + Pres0 + PresExt + PresCc + PresMus;
         
         // reset the external pressure
         PresMus = 0;

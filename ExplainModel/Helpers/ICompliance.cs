@@ -3,6 +3,7 @@ namespace Explain.Helpers;
 public interface ICompliance
 {
     public double Pres { get; set; }
+    public double Pres0 { get; set; }
     public double PresExt { get; set; }
     public double PresCc { get; set; }
     public double PresMus { get; set; }

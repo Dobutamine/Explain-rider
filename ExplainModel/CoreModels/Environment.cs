@@ -24,10 +24,10 @@ public class Environment: ICoreModel
             switch (comp.ModelType)
             {
                 case "BloodCompliance":
-                    ((BloodCompliance)comp).PresAtm = PresAtm;
+                    ((BloodCompliance)comp).Pres0 = 0;
                     break;
                 case "BloodTimeVaryingElastance":
-                    ((BloodTimeVaryingElastance)comp).PresAtm = PresAtm;
+                    ((BloodTimeVaryingElastance)comp).Pres0 = 0;
                     break;
                 case "GasCompliance":
                     ((GasCompliance)comp).Pres0 = PresAtm;
