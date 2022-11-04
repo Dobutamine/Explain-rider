@@ -1266,11 +1266,11 @@
       ]
     },
     "acidbase": {
-      "Name": "acidbase",
+      "Name": "Acidbase",
       "Description": "",
       "ModelType": "AcidBase",
       "IsEnabled": true,
-      "components": ["AA", "LL", "RL", "RA"]
+      "Components": ["AA", "LL", "RL", "RA"]
     },
     "oxygenation": {
       "Name": "oxygenation",
