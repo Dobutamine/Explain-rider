@@ -1186,7 +1186,7 @@
         "Temp": 20.0
       },
       "TempSettings": [
-        { "Name":  "DS", "TargetTemp":  32.0 },
+        { "Name":  "DS", "TargetTemp":  37.0 },
         { "Name":  "ALL", "TargetTemp":  37.0},
         { "Name":  "ALR", "TargetTemp":  37.0 }
       ]

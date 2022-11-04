@@ -46,8 +46,6 @@ public class GasCompliance: ICoreModel, ICompliance, IGasCompliance
 
     private const double GasConstant = 62.36367; // L·mmHg/mol·K
     
-    public GasCompound[] GasCompounds { get; set; }
-
     private Model _model;
     private bool _initialized;
     private double _tempPresMax = -1000;
@@ -61,10 +59,7 @@ public class GasCompliance: ICoreModel, ICompliance, IGasCompliance
     {
         // store a reference to the whole model
         _model = model;
-        
-        // initialize an empty array of blood compounds
-        GasCompounds = Array.Empty<GasCompound>();
-        
+
         // signal that the model component is initialized
         _initialized = true;
     }
@@ -79,11 +74,11 @@ public class GasCompliance: ICoreModel, ICompliance, IGasCompliance
 
     public void CalcModel()
     {
-        // Add heat the get to the target temperature
+        // Add heat the get to the target temperature if this not a fixed composition compliance
         if (!FixedComposition)
         {
-            var dT = (TargetTemp - Temp) * _model.ModelingStepsize;
-            Temp += dT;
+            // add heat to the gas compliance
+            AddHeat();
             
             // add water vapour
             AddWaterVapour();
@@ -144,6 +139,26 @@ public class GasCompliance: ICoreModel, ICompliance, IGasCompliance
         _evalTimer += _model.ModelingStepsize;
 
     }
+
+    public void AddHeat()
+    {
+        // calculate a temperature change depending on the target temperature and the current temperature
+        var dT = (TargetTemp - Temp) * 0.00005;
+        Temp += dT;
+            
+        // change to volume as the temperature changes
+        if (Pres != 0)
+        {
+            var dV = (CTotal * Vol * GasConstant * dT) / Pres;
+            Vol += dV;
+                
+            // guard against negative volumes
+            if (Vol < 0)
+            {
+                Vol = 0;
+            }
+        }
+    }
     
     public void AddWaterVapour()
     {
@@ -170,52 +185,51 @@ public class GasCompliance: ICoreModel, ICompliance, IGasCompliance
     public void CalcGasComposition()
     {
         if (FixedComposition) return;
-        
-        // CURRENT PAPER
-        
-        // // calculate CTotal from gas law if we want to take temperature into account -> leads to PO2all > PO2mouth
-        // CTotal= Pres / (GasConstant * (273.15 + Temp));
-        //
-        // // calculate the partial pressures
-        // Ph2O = GasConstant * (273.15 + Temp) * Ch2O;
-        // Po2 = GasConstant * (273.15 + Temp) * Co2;
-        // Pco2 = GasConstant * (273.15 + Temp) * Co2;
-        // Pn2 = GasConstant * (273.15 + Temp) * Cn2;
-        
-        // ------------------------------------------------------------------------------------------------
-        
-        // // ignore the temperature effect but include water vapour and calculate CTotal sum of all concentrations
+
+        // calculate CTotal sum of all concentrations
         CTotal = Ch2O + Co2 + Cco2 + Cn2;
         
         // calculate the partial pressures
-        Ph2O = (Ch2O / CTotal) * Pres;
-        Po2 = (Co2 / CTotal) * Pres;
-        Pco2 = (Cco2 / CTotal) * Pres;
-        Pn2 = (Cn2 / CTotal) * Pres;
+        if (CTotal != 0)
+        {
+            // calculate the partial pressures
+            Ph2O = (Ch2O / CTotal) * Pres;
+            Po2 = (Co2 / CTotal) * Pres;
+            Pco2 = (Cco2 / CTotal) * Pres;
+            Pn2 = (Cn2 / CTotal) * Pres;
+        }
+        
 
     }
+    
     public void VolumeIn(double dVol, IGasCompliance compFrom)
     {
         // change the volume
         Vol += dVol;
         
         if (FixedComposition) return;
+
+        if (Vol != 0)
+        {
+            // change the gas concentrations
+            var dCo2 = (compFrom.Co2 - Co2) * dVol;
+            Co2 = ((Co2 * Vol) + dCo2) / Vol;
         
-        // change the gas concentrations
-        var dCo2 = (compFrom.Co2 - Co2) * dVol;
-        Co2 = ((Co2 * Vol) + dCo2) / Vol;
+            var dCco2 = (compFrom.Cco2 - Cco2) * dVol;
+            Cco2 = ((Cco2 * Vol) + dCco2) / Vol;
         
-        var dCco2 = (compFrom.Cco2 - Cco2) * dVol;
-        Cco2 = ((Cco2 * Vol) + dCco2) / Vol;
+            var dCn2 = (compFrom.Cn2 - Cn2) * dVol;
+            Cn2 = ((Cn2 * Vol) + dCn2) / Vol;
         
-        var dCn2 = (compFrom.Cn2 - Cn2) * dVol;
-        Cn2 = ((Cn2 * Vol) + dCn2) / Vol;
+            var dCh2O = (compFrom.Ch2O - Ch2O) * dVol;
+            Ch2O = ((Ch2O * Vol) + dCh2O) / Vol;
         
-        var dCh2O = (compFrom.Ch2O - Ch2O) * dVol;
-        Ch2O = ((Ch2O * Vol) + dCh2O) / Vol;
+            // change temperature due to influx of gas
+            var dTemp = (compFrom.Temp - Temp) * dVol;
+            Temp += dTemp;
+
+        }
         
-        // change temperature caused by gas mixing according to 𝑇𝑓 = (𝑛𝐴*𝑇𝐴 + 𝑛𝐵*𝑇𝐵) / (𝑛𝐴+𝑛𝐵)
-        // Temp = ((CTotal * Vol * Temp) + (compFrom.CTotal * dVol * compFrom.Temp) ) / ( CTotal * Vol + compFrom.CTotal * dVol);
     }
     
     public double VolumeOut(double dVol)
@@ -237,6 +251,7 @@ public class GasCompliance: ICoreModel, ICompliance, IGasCompliance
         return volDeficit;
 
     }
+    
     public static double CalcWaterVapourPressure(double temp) {
         // calculate the water vapour pressure in air depending on the temperature
         return Math.Pow(Math.E, 20.386 - 5132 / (temp + 273));

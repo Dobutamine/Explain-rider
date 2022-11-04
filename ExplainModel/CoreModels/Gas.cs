@@ -75,7 +75,7 @@ public class Gas: ICoreModel
             var comp = (GasCompliance)_model.Components.Find(i => i.Name == tempSetting.Name)!;
             comp.TempSTP = TempSTP;
             comp.PresSTP = PresSTP;
-            comp.Temp = tempSetting.TargetTemp;
+            comp.Temp = TempSTP;
             comp.TargetTemp = tempSetting.TargetTemp;
         }
         
