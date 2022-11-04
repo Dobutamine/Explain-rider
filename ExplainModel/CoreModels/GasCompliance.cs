@@ -9,11 +9,12 @@ public class GasCompliance: ICoreModel, ICompliance, IGasCompliance
     public string ModelType { get; set; } = "";
     public bool IsEnabled { get; set; }  = false;
     public double Pres { get; set; }
+    public double PresSTP { get; set; }
     public double Pres0 { get; set; }
-    public double PresAtm { get; set; } = 760;
+    public double PresTemp { get; set; }
     public double PresMus { get; set; }
     public double PresExt { get; set; }
-    public double PresCC { get; set; }
+    public double PresCc { get; set; }
     public double PresMax { get; set; }
     public double PresMin { get; set; }
     public double Vol { get; set; }
@@ -24,27 +25,24 @@ public class GasCompliance: ICoreModel, ICompliance, IGasCompliance
     public double ElK { get; set; }
     public double ActFactor { get; set; }
     public double CTotal { get; set; } = 0;
-    public double CO2 { get; set; }
-    public double CCO2 { get; set; }
-    public double CN2 { get; set; }
-    public double CH2O { get; set; }
-    public double PH2O { get; set; }
-    public double PO2 { get; set; }
-    public double PCO2 { get; set; }
-    public double PN2 { get; set; }
+    public double Co2 { get; set; }
+    public double Cco2 { get; set; }
+    public double Cn2 { get; set; }
+    public double Ch2O { get; set; }
+    public double Ph2O { get; set; }
+    public double Po2 { get; set; }
+    public double Pco2 { get; set; }
+    public double Pn2 { get; set; }
     public double Temp { get; set; }
-    
+    public double TargetTemp { get; set; }
+    public double TempSTP { get; set; }
+
     public double FTotal { get; set; }
-    public double FH2O { get; set; }
-    public double FO2 { get; set; }
-    public double FCO2 { get; set; }
-    public double FN2 { get; set; }
-    public double FH2ODry { get; set; }
-    public double FO2Dry { get; set; }
-    public double FCO2Dry { get; set; }
-    public double FN2Dry { get; set; }
-    
-    public double TempEffect { get; set; }
+    public double Fh2O { get; set; }
+    public double Fo2 { get; set; }
+    public double Fco2 { get; set; }
+    public double Fn2 { get; set; }
+    public bool FixedComposition { get; set; } = false;
 
     private const double GasConstant = 62.36367; // L·mmHg/mol·K
     
@@ -81,20 +79,27 @@ public class GasCompliance: ICoreModel, ICompliance, IGasCompliance
 
     public void CalcModel()
     {
-        // add water vapour
-        AddWaterVapour();
+        // Add heat the get to the target temperature
+        if (!FixedComposition)
+        {
+            var dT = (TargetTemp - Temp) * _model.ModelingStepsize;
+            Temp += dT;
+            
+            // add water vapour
+            AddWaterVapour();
+        }
         
-        // calculate the pressure depending on the elastance
-        Pres = ElBase * (1 + ElK * (Vol - Uvol)) * (Vol - Uvol) + Pres0 + PresExt + PresCC + PresAtm + PresMus + TempEffect;
-        
+        // calculate the pressure depending on the elastance at 0 degrees celsius
+        Pres = ElBase * (1 + ElK * (Vol - Uvol)) * (Vol - Uvol) + Pres0 + PresExt + PresCc  + PresMus;
+
         // calculate the new gas composition of this compliance based on the new pressure and volume.
         CalcGasComposition();
         
         // reset the external pressure
+        PresTemp = 0;
         PresMus = 0;
         PresExt = 0;
-        PresCC = 0;
-        Pres0 = 0;
+        PresCc = 0;
 
         // do the statistics
         CalcMinMax();
@@ -142,52 +147,75 @@ public class GasCompliance: ICoreModel, ICompliance, IGasCompliance
     
     public void AddWaterVapour()
     {
-        // calculate the current water vapour pressure of the gas compliance
-        PH2O = GasConstant * (273.15 + Temp) * CH2O;
-
+        if (FixedComposition) return;
+        
         // Calculate water vapour pressure at compliance temperature
         var pH2Ot = CalcWaterVapourPressure(Temp);
         
         // do the diffusion from water vapour depending on the tissue water vapour and gas water vapour pressure
-        var dH2O = 0.00001 * (pH2Ot - PH2O) * _model.ModelingStepsize;
-        CH2O = ((CH2O * Vol) + dH2O) / Vol;
-
+        var dH2O = 0.00001 * (pH2Ot - Ph2O) * _model.ModelingStepsize;
+        if (Vol != 0)
+        {
+            Ch2O = ((Ch2O * Vol) + dH2O) / Vol;
+        }
+        
         // as the water vapour also takes volume this is added to the compliance
-        Vol += 25.8 * dH2O;
-
+        if (Pres != 0)
+        {
+            Vol += ((GasConstant * (273.15 + Temp)) / Pres) * dH2O;
+        }
+        
     }
 
     public void CalcGasComposition()
     {
-        // calculate CTotal if we want to take temperature into account
-        CTotal= Pres / (GasConstant * (273.15 + Temp));
+        if (FixedComposition) return;
         
-        // ignore the temperature effect but include water vapour and calculate CTotal using mass balance
-        CTotal = CH2O + CO2 + CCO2 + CN2;
+        // CURRENT PAPER
+        
+        // // calculate CTotal from gas law if we want to take temperature into account -> leads to PO2all > PO2mouth
+        // CTotal= Pres / (GasConstant * (273.15 + Temp));
+        //
+        // // calculate the partial pressures
+        // Ph2O = GasConstant * (273.15 + Temp) * Ch2O;
+        // Po2 = GasConstant * (273.15 + Temp) * Co2;
+        // Pco2 = GasConstant * (273.15 + Temp) * Co2;
+        // Pn2 = GasConstant * (273.15 + Temp) * Cn2;
+        
+        // ------------------------------------------------------------------------------------------------
+        
+        // // ignore the temperature effect but include water vapour and calculate CTotal sum of all concentrations
+        CTotal = Ch2O + Co2 + Cco2 + Cn2;
         
         // calculate the partial pressures
-        PH2O = (CH2O / CTotal) * Pres;
-        PO2 = (CO2 / CTotal) * Pres;
-        PCO2 = (CCO2 / CTotal) * Pres;
-        PN2 = (CN2 / CTotal) * Pres;
+        Ph2O = (Ch2O / CTotal) * Pres;
+        Po2 = (Co2 / CTotal) * Pres;
+        Pco2 = (Cco2 / CTotal) * Pres;
+        Pn2 = (Cn2 / CTotal) * Pres;
+
     }
     public void VolumeIn(double dVol, IGasCompliance compFrom)
     {
         // change the volume
         Vol += dVol;
         
+        if (FixedComposition) return;
+        
         // change the gas concentrations
-        var dCo2 = (compFrom.CO2 - CO2) * dVol;
-        CO2 = ((CO2 * Vol) + dCo2) / Vol;
+        var dCo2 = (compFrom.Co2 - Co2) * dVol;
+        Co2 = ((Co2 * Vol) + dCo2) / Vol;
         
-        var dCco2 = (compFrom.CCO2 - CCO2) * dVol;
-        CCO2 = ((CCO2 * Vol) + dCco2) / Vol;
+        var dCco2 = (compFrom.Cco2 - Cco2) * dVol;
+        Cco2 = ((Cco2 * Vol) + dCco2) / Vol;
         
-        var dCn2 = (compFrom.CN2 - CN2) * dVol;
-        CN2 = ((CN2 * Vol) + dCn2) / Vol;
+        var dCn2 = (compFrom.Cn2 - Cn2) * dVol;
+        Cn2 = ((Cn2 * Vol) + dCn2) / Vol;
         
-        var dCh2O = (compFrom.CH2O - CH2O) * dVol;
-        CH2O = ((CH2O * Vol) + dCh2O) / Vol;
+        var dCh2O = (compFrom.Ch2O - Ch2O) * dVol;
+        Ch2O = ((Ch2O * Vol) + dCh2O) / Vol;
+        
+        // change temperature caused by gas mixing according to 𝑇𝑓 = (𝑛𝐴*𝑇𝐴 + 𝑛𝐵*𝑇𝐵) / (𝑛𝐴+𝑛𝐵)
+        // Temp = ((CTotal * Vol * Temp) + (compFrom.CTotal * dVol * compFrom.Temp) ) / ( CTotal * Vol + compFrom.CTotal * dVol);
     }
     
     public double VolumeOut(double dVol)
@@ -209,7 +237,7 @@ public class GasCompliance: ICoreModel, ICompliance, IGasCompliance
         return volDeficit;
 
     }
-    public double CalcWaterVapourPressure(double temp) {
+    public static double CalcWaterVapourPressure(double temp) {
         // calculate the water vapour pressure in air depending on the temperature
         return Math.Pow(Math.E, 20.386 - 5132 / (temp + 273));
     }

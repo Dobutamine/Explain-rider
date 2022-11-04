@@ -12,7 +12,7 @@ public class Container: ICoreModel, ICompliance
     public double PresMus { get; set; }
     public double Pres0 { get; set; }
     public double PresExt { get; set; }
-    public double PresCC { get; set; }
+    public double PresCc { get; set; }
     public double PresMax { get; set; }
     public double PresMin { get; set; }
     public double Vol { get; set; }
@@ -78,7 +78,7 @@ public class Container: ICoreModel, ICompliance
         }
         
         // calculate the pressure depending on the elastance
-        Pres = ElBase * (1 + ElK * (Vol - Uvol)) * (Vol - Uvol) + Pres0 + PresExt + PresCC + PresMus;
+        Pres = ElBase * (1 + ElK * (Vol - Uvol)) * (Vol - Uvol) + Pres0 + PresExt + PresCc + PresMus;
         
         // transfer the pressures to the compliances the container contains
         foreach (var comp in Compliances)
@@ -90,7 +90,7 @@ public class Container: ICoreModel, ICompliance
         // reset the external pressures and volumes
         PresMus = 0;
         PresExt = 0;
-        PresCC = 0;
+        PresCc = 0;
         VolExt = 0;
         
         // calculate the minimal and maximal volumes and pressures

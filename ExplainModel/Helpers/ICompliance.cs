@@ -4,7 +4,7 @@ public interface ICompliance
 {
     public double Pres { get; set; }
     public double PresExt { get; set; }
-    public double PresCC { get; set; }
+    public double PresCc { get; set; }
     public double PresMus { get; set; }
     public double PresMax { get; set; }
     public double PresMin { get; set; }

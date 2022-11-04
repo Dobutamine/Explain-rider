@@ -30,7 +30,7 @@ public class Environment: ICoreModel
                     ((BloodTimeVaryingElastance)comp).PresAtm = PresAtm;
                     break;
                 case "GasCompliance":
-                    ((GasCompliance)comp).PresAtm = PresAtm;
+                    ((GasCompliance)comp).Pres0 = PresAtm;
                     break;
             }
         }

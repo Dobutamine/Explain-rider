@@ -13,7 +13,7 @@ public class BloodCompliance: ICoreModel, ICompliance, IBloodCompliance
     public double PresMus { get; set; } = 0;
     public double Pres0 { get; set; } = 0;
     public double PresExt { get; set; } = 0;
-    public double PresCC { get; set; } = 0;
+    public double PresCc { get; set; } = 0;
     public double PresMax { get; set; } = 0;
     public double PresMin { get; set; } = 0;
     public double Vol { get; set; } = 0;
@@ -62,13 +62,13 @@ public class BloodCompliance: ICoreModel, ICompliance, IBloodCompliance
     public void CalcModel()
     {
         // calculate the pressure depending on the elastance
-        Pres = ElBase * (1 + ElK * (Vol - Uvol)) * (Vol - Uvol) + Pres0 + PresExt + PresCC + PresAtm + PresMus;
+        Pres = ElBase * (1 + ElK * (Vol - Uvol)) * (Vol - Uvol) + Pres0 + PresExt + PresCc + PresAtm + PresMus;
         
         // reset the external pressures
         PresMus = 0;
         Pres0 = 0;
         PresExt = 0;
-        PresCC = 0;
+        PresCc = 0;
         
         // do the statistics
         CalcMinMax();

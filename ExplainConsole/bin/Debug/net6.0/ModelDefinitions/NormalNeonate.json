@@ -1174,77 +1174,21 @@
       "Description": "gas composition model",
       "ModelType": "Gas",
       "IsEnabled": true,
-      "GasConstant": 62.36367,
-      "TempRoom": 20,
-      "Patm": 760,
-      "GasSourceComp": ["MOUTH"],
+      "PresSTP": 760,
+      "TempSTP": 20,
+      "Pres0": 760,
+      "InspiredAirAtPres0": {
+        "Components": ["MOUTH"],
+        "Fh2o": 0.0223,
+        "Fo2": 0.205,
+        "Fco2": 0.000392,
+        "Fn2": 0.772308,
+        "Temp": 20.0
+      },
       "TempSettings": [
-        {
-          "Name": "ALL",
-          "Temp": 37
-        },
-        {
-          "Name": "ALR",
-          "Temp": 37
-        },
-        {
-          "Name": "DS",
-          "Temp": 32
-        },
-        {
-          "Name": "MOUTH",
-          "Temp": 20
-        },
-        {
-          "Name": "VENTIN",
-          "Temp": 20
-        },
-        {
-          "Name": "VENTMOUTH",
-          "Temp": 20
-        },
-        {
-          "Name": "TUBINGIN",
-          "Temp": 20
-        },
-        {
-          "Name": "TUBINGMOUTH",
-          "Temp": 20
-        },
-        {
-          "Name": "YPIECE",
-          "Temp": 20
-        }
-      ],
-      "GasCompounds": [
-        {
-          "Name": "o2",
-          "Unit": "mmHg",
-          "Conc": 0,
-          "PPres": 0,
-          "Fract": 0.2095
-        },
-        {
-          "Name": "co2",
-          "Unit": "mmHg",
-          "Conc": 0,
-          "PPres": 0,
-          "Fraction": 0.0004
-        },
-        {
-          "Name": "n2",
-          "Unit": "mmHg",
-          "Conc": 0,
-          "PPres": 0,
-          "Fraction": 0.7809
-        },
-        {
-          "Name": "h2o",
-          "Unit": "mmHg",
-          "Conc": 0,
-          "PPres": 0,
-          "Fraction": 0.0092
-        }
+        { "Name":  "DS", "TargetTemp":  32.0 },
+        { "Name":  "ALL", "TargetTemp":  37.0},
+        { "Name":  "ALR", "TargetTemp":  37.0 }
       ]
     },
     "breathing": {
