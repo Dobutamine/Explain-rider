@@ -10,39 +10,32 @@ public class Oxygenation: ICoreModel
     public bool IsEnabled { get; set; }
     
     // set the brent root finding properties
-    private double _brentAccuracy = 1e-8;
-    private double _maxIterations = 100.0;
-    private double _leftO2 = 0.01;
-    private double _rightO2 = 100.0;
+    private readonly double _brentAccuracy = 1e-8;
+    private readonly double _maxIterations = 100.0;
+    private readonly double _leftO2 = 0.01;
+    private readonly double _rightO2 = 100.0;
     
     // oxygenation constants
-    private double _alphaO2P = 0.0095;
     private double _mmolToMl = 22.2674;
     
-    private Model? _model;
-    private BrentRootFinding Brent;
-    private bool _initialized = false;
-    private double _t = 0.0005;
+    private BrentRootFinding _brent = new BrentRootFinding();
+    private bool _initialized;
+    private const double GasConstant = 62.36367; // L·mmHg/mol·K
     
-    private double _to2 = 0;
-    private double _ph  = 0;
-    private double _temp = 0;
-    private double _be = 0;
-    private double _dpg = 0;
-    private double _hemoglobin = 0;
-    private double _so2 = 0;
-    private double _po2 = 0;
+    private double _to2;
+    private double _ph;
+    private double _temp;
+    private double _be;
+    private double _dpg;
+    private double _hemoglobin;
+    private double _so2;
+    private readonly double _po2 = 0;
+    private double _pres = 760;
 
     public void InitModel(Model model)
     {
-        // store a reference to the whole model
-        _model = model;
-        
-        // store the stepsize for easy referencing
-        _t = _model.ModelingStepsize;
-        
         // instantiate a brent root finding object
-        Brent = new BrentRootFinding();
+        _brent = new BrentRootFinding();
 
         // signal that the model component is initialized
         _initialized = true;
@@ -50,7 +43,7 @@ public class Oxygenation: ICoreModel
     public void StepModel() { }
     public void CalcModel() { }
 
-    public OxyResult CalcOxygenation(double to2, double hb = 8.0, double temp = 37.0, double ph = 7.40,  double dpg = 5, double be = 0.0)
+    public OxyResult CalcOxygenation(double to2, double hb = 8.0, double temp = 37.0, double ph = 7.40,  double dpg = 5, double be = 0.0, double pres = 760)
     {
         // set new oxygenation result
         var oxy = new OxyResult
@@ -60,6 +53,8 @@ public class Oxygenation: ICoreModel
             Error = true
         };
 
+        if (!_initialized) return oxy;
+        
         // set the parameters
         _to2 = to2;
         _hemoglobin = hb;
@@ -67,9 +62,10 @@ public class Oxygenation: ICoreModel
         _be = be;
         _dpg = dpg;
         _ph = ph;
+        _pres = pres;
         
         // calculate the po2 from the to2 using a brent root finding function and oxygen dissociation curve
-        var hp = Brent.Brent(OxygenContent, _leftO2, _rightO2, _maxIterations, _brentAccuracy);
+        var hp = _brent.Brent(OxygenContent, _leftO2, _rightO2, _maxIterations, _brentAccuracy);
         oxy.Iterations = hp.Iterations;
         oxy.Error = hp.Error;
         
@@ -91,8 +87,11 @@ public class Oxygenation: ICoreModel
         // convert to output from ml O2/dL blood to ml O2/l blood
         var to2NewEstimate = (0.0031 * (po2 / 0.1333) + 1.36 * (_hemoglobin / 0.6206) * _so2) * 10.0;
 
-        // convert the ml O2/l to mmol/l
-        to2NewEstimate = to2NewEstimate / _mmolToMl;
+        // convert the ml O2/l to mmol/l with the gas law with (GasConstant * (273.15 + _temp)) / Pres) / to2 (mol/l)
+        _mmolToMl = GasConstant * (273.15 + _temp) / _pres;
+        
+        // calculate ml O2 / ml blood.
+        to2NewEstimate /= _mmolToMl;
 
         // calculate the difference between the real to2 and the to2 based on the new po2 estimate and return it to the brent root finding function
         var dto2 = _to2 - to2NewEstimate;
