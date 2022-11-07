@@ -25,7 +25,7 @@ public class BloodTimeVaryingElastance: ICoreModel, ICompliance, IBloodComplianc
     public double ElMax { get; set; }
     public double ElK { get; set; }
     public double ActFactor { get; set; }
-    
+
     public BloodCompound[] Solutes { get; set; }
     
     private Model _model;

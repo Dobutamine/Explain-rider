@@ -10,6 +10,7 @@ public interface IBloodCompliance
     public double VolMax { get; set; }
     public double VolMin { get; set; }
     public double ActFactor { get; set; }
+
     public BloodCompound[] Solutes { get; set; }
     
     public void VolumeIn(double dvol, IBloodCompliance compFrom);

@@ -1269,15 +1269,13 @@
       "Name": "Acidbase",
       "Description": "",
       "ModelType": "AcidBase",
-      "IsEnabled": true,
-      "Components": ["AA", "LL", "RL", "RA"]
+      "IsEnabled": true
     },
     "oxygenation": {
       "Name": "oxygenation",
       "Description": "",
       "ModelType": "Oxygenation",
-      "IsEnabled": true,
-      "components": ["AA", "LL", "RL", "RA"]
+      "IsEnabled": true
     },
     "drugs": {
       "Name": "drugs",
