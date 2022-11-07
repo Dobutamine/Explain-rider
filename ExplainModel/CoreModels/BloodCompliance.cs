@@ -22,6 +22,7 @@ public class BloodCompliance: ICoreModel, ICompliance, IBloodCompliance
     public double ElBase { get; set; } = 0;
     public double ElK { get; set; } = 0;
     public double ActFactor { get; set; }
+
     public BloodCompound[] Solutes { get; set; } = Array.Empty<BloodCompound>();
 
     private Model? _model;
@@ -115,7 +116,7 @@ public class BloodCompliance: ICoreModel, ICompliance, IBloodCompliance
     {
         // change the volume
         Vol += dVol;
-        
+
         // calculate the solute concentrations
         for (var i = 0; i < Solutes.Length; i++)
         {

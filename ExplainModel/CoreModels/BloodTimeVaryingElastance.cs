@@ -26,6 +26,7 @@ public class BloodTimeVaryingElastance: ICoreModel, ICompliance, IBloodComplianc
     public double ElK { get; set; }
     public double ActFactor { get; set; }
 
+
     public BloodCompound[] Solutes { get; set; }
     
     private Model _model;
@@ -125,7 +126,7 @@ public class BloodTimeVaryingElastance: ICoreModel, ICompliance, IBloodComplianc
         for (var i = 0; i < Solutes.Length; i++)
         {
             // calculate the amount of solute which is being transferred
-            var dSol = compFrom.Solutes[i].Conc * dVol;
+            var dSol = (compFrom.Solutes[i].Conc - Solutes[i].Conc) * dVol;
             
             // calculate the change in concentration
             Solutes[i].Conc = ((Solutes[i].Conc * Vol) + dSol) / Vol;

@@ -21,7 +21,7 @@ public class AcidBase : ICoreModel
   private readonly double _kd = Math.Pow(10.0, -10.22) * 1000.0;
   private readonly double _alphaCo2P = 0.03067;
 
-  // bloodgas
+  // blood gas
   private double _tco2;
   private double _sid;
   private double _albumin;
@@ -81,14 +81,12 @@ public class AcidBase : ICoreModel
     bg.Error = hp.Error;
     
     // get the result
-    if (!bg.Error)
-    {
-      bg.Ph = _pH;
-      bg.Pco2 = _pco2;
-      bg.Hco3 = _hco3;
-      bg.Be = 0;
-      
-    }
+    if (bg.Error) return bg;
+    
+    bg.Ph = _pH;
+    bg.Pco2 = _pco2;
+    bg.Hco3 = _hco3;
+    bg.Be = 0;
     
     return bg;
   }
@@ -106,7 +104,7 @@ public class AcidBase : ICoreModel
     // calculate the pco2 of the plasma
     _pco2 = _cco2 / _alphaCo2P; // Eq. 13
     // calculate the pH
-    _pH = Math.Log10(h / 1000.0); // Eq. 9
+    _pH = -Math.Log10(h / 1000.0); // Eq. 9
     // calculate the weak acids (albumin and phosphates)
     var a = _albumin * (0.123 * _pH - 0.631) + _phosphates * (0.309 * _pH - 0.469); // Eq. 8
     var ac = h - _hco3 - a - _oh - (2 * _cco3); // Eq. 10

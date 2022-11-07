@@ -29,7 +29,7 @@ public class Oxygenation: ICoreModel
     private double _dpg;
     private double _hemoglobin;
     private double _so2;
-    private readonly double _po2 = 0;
+    private double _po2 = 0;
     private double _pres = 760;
 
     public void InitModel(Model model)
@@ -70,16 +70,18 @@ public class Oxygenation: ICoreModel
         oxy.Error = hp.Error;
         
         // get the result
-        if (!hp.Error)
-        {
-            oxy.Po2 = _po2;
-            oxy.So2 = _so2;
-        }
+        if (hp.Error) return oxy;
+
+        oxy.Po2 = _po2;
+        oxy.So2 = _so2;
+        
         return oxy;
     }
     private double OxygenContent(double po2) {
         // calculate the saturation from the current po2 from the current po2 estimate
-        _so2 = this.OxygenDissociationCurve(po2);
+        _so2 = OxygenDissociationCurve(po2);
+        // store the current po2 estimate as mmHg
+        _po2 = po2 / 0.13333;
 
         // calculate the to2 from the current po2 estimate
         // convert the hemoglobin unit from mmol/l to g/dL
@@ -89,7 +91,7 @@ public class Oxygenation: ICoreModel
 
         // convert the ml O2/l to mmol/l with the gas law with (GasConstant * (273.15 + _temp)) / Pres) / to2 (mol/l)
         _mmolToMl = GasConstant * (273.15 + _temp) / _pres;
-        
+
         // calculate ml O2 / ml blood.
         to2NewEstimate /= _mmolToMl;
 
