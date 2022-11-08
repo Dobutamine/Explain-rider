@@ -14,8 +14,7 @@ public class Sensor: ICoreModel
     public double SetPoint { get; set; }
     public double Sensitivity { get; set; }
     public double TimeConstant { get; set; }
-    public double Activity { get; set; }
-    public double SensorOutput { get; set; }
+    public double Output { get; set; }
     public double UpdateInterval { get; set; }
     
     private Model? _model;
@@ -64,10 +63,10 @@ public class Sensor: ICoreModel
             var sensorValue = (double)_inputModel.FastGetValue(InputProperty);
             
             // calculate the sensor activity
-            Activity = (100.0 / (1 + Math.Pow(Math.E, (sensorValue - SetPoint) * -Sensitivity)));
+            var activity = (100.0 / (1 + Math.Pow(Math.E, (sensorValue - SetPoint) * -Sensitivity)));
             
             // calculate the sensor output
-            SensorOutput = UpdateInterval * ((1 / TimeConstant) * (-SensorOutput + Activity)) + SensorOutput;
+            Output = UpdateInterval * ((1 / TimeConstant) * (-Output + activity)) + Output;
         }
 
         _updateTimer += _t;

@@ -26,8 +26,8 @@ if (explain.Initialized)
     // explain.DataCollector.AddToWatchList("DS_ALL", "Flow");
     // explain.DataCollector.AddToWatchList("AA", "Po2");
     //
-    explain.DataCollector.AddToWatchList("Baroreceptor", "SensorOutput");
-    explain.DataCollector.AddToWatchList("AA", "Pres");
+    explain.DataCollector.AddToWatchList("Baroreceptor", "Output");
+    explain.DataCollector.AddToWatchList("Sns", "Output");
     //
     // explain.DataCollector.AddToWatchList("ALL", "Po2");
     // explain.DataCollector.AddToWatchList("ALL", "Pco2");

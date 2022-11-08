@@ -950,6 +950,17 @@
       "Sensitivity": 0.1,
       "TimeConstant": 5.0,
       "UpdateInterval": 0.015
+    },
+    "sns": {
+      "Name": "Sns",
+      "Description": "sympathetic nervous system",
+      "ModelType": "SensorIntegrator",
+      "IsEnabled": true,
+      "InputSensors": [
+        { "Name": "Baroreceptor", "Magnitude": 1.0 }
+      ],
+      "TimeConstant": 5.0,
+      "UpdateInterval": 0.015
     }
   }
 }
