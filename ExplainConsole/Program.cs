@@ -26,8 +26,8 @@ if (explain.Initialized)
     // explain.DataCollector.AddToWatchList("DS_ALL", "Flow");
     // explain.DataCollector.AddToWatchList("AA", "Po2");
     //
-    explain.DataCollector.AddToWatchList("LL", "Pco2");
-    explain.DataCollector.AddToWatchList("ALL", "Pco2");
+    explain.DataCollector.AddToWatchList("Baroreceptor", "SensorOutput");
+    explain.DataCollector.AddToWatchList("AA", "Pres");
     //
     // explain.DataCollector.AddToWatchList("ALL", "Po2");
     // explain.DataCollector.AddToWatchList("ALL", "Pco2");
@@ -46,7 +46,7 @@ if (explain.Initialized)
     var prerun = explain.Calculate(5);
     
     // calculate 30 seconds
-    var modelOutput = explain.Calculate(240);
+    var modelOutput = explain.Calculate(60);
     
     // print the data
     // Model.PrintData(modelOutput.ModelData);

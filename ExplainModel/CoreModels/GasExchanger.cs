@@ -13,8 +13,8 @@ public class GasExchanger: ICoreModel
     public double DifO2 { get; set; }
     public double DifCo2 { get; set; }
 
-    private IBloodCompliance? _compBlood { get; set; }
-    private GasCompliance? _compGas { get; set; }
+    private IBloodCompliance? _compBlood;
+    private GasCompliance? _compGas;
 
     private AcidBase _ab = new AcidBase();
     private Oxygenation _oxy = new Oxygenation();
@@ -23,7 +23,7 @@ public class GasExchanger: ICoreModel
 
     private double _fluxO2;
     private double _fluxCo2;
-    private const double GasConstant = 62.36367; // L·mmHg/mol·K
+
     
     public void InitModel(Model model)
     {
@@ -34,7 +34,7 @@ public class GasExchanger: ICoreModel
         _compBlood = (IBloodCompliance)_model.Components.Find(i => i.Name == CompBlood)!;
         _compGas = (GasCompliance)_model.Components.Find(i => i.Name == CompGas)!;
         
-        // store a reference to the acidbase and oxygenation models
+        // store a reference to the acid base and oxygenation models
         _ab = (AcidBase)_model.Components.Find(i => i.Name == "AcidBase")!;
         _oxy = (Oxygenation)_model.Components.Find(i => i.Name == "Oxygenation")!;
         
@@ -101,16 +101,10 @@ public class GasExchanger: ICoreModel
             newCCo2Gas = 0;
         }
         
-        
         // transfer the new concentrations
         _compBlood.Solutes[0].Conc = newTo2Blood;
         _compBlood.Solutes[1].Conc = newTCo2Blood;
         _compGas.Co2 = newCo2Gas;
         _compGas.Cco2 = newCCo2Gas;
-
-        _compBlood.Pco2 = pco2Blood;
-        _compBlood.Po2 = po2Blood;
-
-
     }
 }

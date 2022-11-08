@@ -938,6 +938,18 @@
       "IsEnabled": true,
       "PresAtm": 760,
       "OutsideTemp": 20
+    },
+    "Baroreceptor": {
+      "Name": "Baroreceptor",
+      "Description": "",
+      "ModelType": "Sensor",
+      "IsEnabled": true,
+      "InputModel": "AA",
+      "InputProperty": "Pres",
+      "SetPoint": 30,
+      "Sensitivity": 0.1,
+      "TimeConstant": 5.0,
+      "UpdateInterval": 0.015
     }
   }
 }
