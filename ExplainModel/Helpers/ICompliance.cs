@@ -12,5 +12,5 @@ public interface ICompliance
     public double Vol { get; set; }
     public double VolMax { get; set; }
     public double VolMin { get; set; }
-    public double ActFactor { get; set; }
+
 }

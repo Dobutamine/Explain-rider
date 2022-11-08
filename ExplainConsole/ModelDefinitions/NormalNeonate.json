@@ -4,7 +4,7 @@
   "Weight": 3.3,
   "ModelTimeTotal": 0,
   "ModelingStepsize": 0.0005,
-  "components": {
+  "Components": {
     "AA": {
       "Name": "AA",
       "Description": "ascending aorta",
@@ -14,7 +14,6 @@
       "UVol": 0.003,
       "ElBase": 23000,
       "ElK": 0
-      
     },
     "AAR": {
       "Name": "AAR",
@@ -710,61 +709,6 @@
       "ElBase": 200.0,
       "ElK": 0
     },
-    "VENTIN": {
-      "Name": "VENTIN",
-      "Description": "ventilator insp compartment",
-      "ModelType": "GasCompliance",
-      "IsEnabled": false,
-      "Vol": 3,
-      "UVol": 1,
-      "ElBase": 5000,
-      "ElK": 0
-      
-    },
-    "TUBINGIN": {
-      "Name": "TUBINGIN",
-      "Description": "ventilator tubing insp",
-      "ModelType": "GasCompliance",
-      "IsEnabled": false,
-      "Vol": 0.01,
-      "UVol": 0.01,
-      "ElBase": 10000,
-      "ElK": 0
-      
-    },
-    "TUBINGMOUTH": {
-      "Name": "TUBINGMOUTH",
-      "Description": "ventilator tubing insp",
-      "ModelType": "GasCompliance",
-      "IsEnabled": false,
-      "Vol": 0.01,
-      "UVol": 0.01,
-      "ElBase": 10000,
-      "ElK": 0
-      
-    },
-    "VENTMOUTH": {
-      "Name": "VENTMOUTH",
-      "Description": "ventilator exp compartment",
-      "ModelType": "GasCompliance",
-      "IsEnabled": false,
-      "Vol": 1,
-      "UVol": 1,
-      "ElBase": 50000,
-      "ElK": 0
-      
-    },
-    "YPIECE": {
-      "Name": "YPIECE",
-      "Description": "ventilator y-piece",
-      "ModelType": "GasCompliance",
-      "IsEnabled": false,
-      "Vol": 0.005,
-      "UVol": 0.005,
-      "ElBase": 5000,
-      "ElK": 0
-      
-    },
     "MOUTH_DS": {
       "Name": "MOUTH_DS",
       "Description": "MOUTHside air to dead space",
@@ -804,84 +748,6 @@
       "RBack": 75,
       "Rk": 0
     },
-    "VENT_INSP_VALVE": {
-      "Name": "VENT_INSP_VALVE",
-      "Description": "ventilator inspiration valve",
-      "ModelType": "GasResistor",
-      "IsEnabled": false,
-      "NoFlow": false,
-      "NoBackFlow": true,
-      "CompFrom": "VENTIN",
-      "CompTo": "YPIECE",
-      "Rfor": 50000,
-      "RBack": 50000,
-      "Rk": 0
-    },
-    "TUBINGIN_YPIECE": {
-      "Name": "TUBINGIN_YPIECE",
-      "Description": "inspiratory tubing to ypiece",
-      "ModelType": "GasResistor",
-      "IsEnabled": false,
-      "NoFlow": false,
-      "NoBackFlow": false,
-      "CompFrom": "TUBINGIN",
-      "CompTo": "YPIECE",
-      "Rfor": 10,
-      "RBack": 10,
-      "Rk": 0
-    },
-    "TUBINGIN_TUBINGMOUTH": {
-      "Name": "TUBINGIN_TUBINGMOUTH",
-      "Description": "inspiratory to expiratory tubing",
-      "ModelType": "GasResistor",
-      "IsEnabled": false,
-      "NoFlow": false,
-      "NoBackFlow": false,
-      "CompFrom": "TUBINGIN",
-      "CompTo": "TUBINGMOUTH",
-      "Rfor": 10,
-      "RBack": 10,
-      "Rk": 0
-    },
-    "YPIECE_DS": {
-      "Name": "YPIECE_DS",
-      "Description": "ventilator y-piece to non-collapsible airways",
-      "ModelType": "GasResistor",
-      "IsEnabled": false,
-      "NoFlow": false,
-      "NoBackFlow": false,
-      "CompFrom": "YPIECE",
-      "CompTo": "DS",
-      "Rfor": 25,
-      "RBack": 25,
-      "Rk": 0
-    },
-    "YPIECE_TUBINGMOUTH": {
-      "Name": "YPIECE_TUBINGMOUTH",
-      "Description": "expiratory tubing to ypiece",
-      "ModelType": "GasResistor",
-      "IsEnabled": false,
-      "NoFlow": false,
-      "NoBackFlow": false,
-      "CompFrom": "YPIECE",
-      "CompTo": "TUBINGMOUTH",
-      "Rfor": 10,
-      "RBack": 10,
-      "Rk": 0
-    },
-    "VENT_EXP_VALVE": {
-      "Name": "VENT_EXP_VALVE",
-      "Description": "ventilator expiration valve",
-      "ModelType": "GasResistor",
-      "IsEnabled": false,
-      "NoFlow": false,
-      "NoBackFlow": false,
-      "CompFrom": "TUBINGMOUTH",
-      "CompTo": "VENTMOUTH",
-      "Rfor": 50,
-      "RBack": 50,
-      "Rk": 0
-    },
     "PC": {
       "Name": "PC",
       "Description": "pericardium",
@@ -893,42 +759,6 @@
       "ElBase": 10,
       "ElK": 0
     },
-    "DIFF_LL": {
-      "Name": "DIFF_LL",
-      "Description": "diffusor left lung DS",
-      "ModelType": "Diffusor",
-      "CompGas1": "ALL",
-      "CompGas2": "DS",
-      "IsEnabled": true,
-      "DifO2": 0.0001,
-      "DifCo2": 0.00015,
-      "DifN2": 0.00015,
-      "DifOther": 0.00015
-    },
-    "DIFF_RL": {
-      "Name": "DIFF_RL",
-      "Description": "diffusor right lung DS",
-      "ModelType": "Diffusor",
-      "CompGas1": "ALR",
-      "CompGas2": "DS",
-      "IsEnabled": true,
-      "DifO2": 0.0001,
-      "DifCo2": 0.00015,
-      "DifN2": 0.00015,
-      "DifOther": 0.00015
-    },
-    "DIFF_DS": {
-      "Name": "DIFF_DS",
-      "Description": "diffusor DS to MOUTH",
-      "ModelType": "Diffusor",
-      "CompGas1": "DS",
-      "CompGas2": "MOUTH",
-      "IsEnabled": true,
-      "DifO2": 0.0001,
-      "DifCo2": 0.00015,
-      "DifN2": 0.00015,
-      "DifOther": 0.00015
-    },
     "GASEX_LL": {
       "Name": "GASEX_LL",
       "Description": "Gas exchanger blood-gas left lung",
@@ -936,8 +766,8 @@
       "CompBlood": "LL",
       "CompGas": "ALL",
       "IsEnabled": true,
-      "DifO2": 0.01,
-      "DifCo2": 0.01
+      "DifO2": 0.1,
+      "DifCo2": 0.1
     },
     "GASEX_LR": {
       "Name": "GASEX_LR",
@@ -949,7 +779,7 @@
       "DifO2": 0.01,
       "DifCo2": 0.01
     },
-    "heart": {
+    "Heart": {
       "Name": "Heart",
       "Description": "heart ecg and activation",
       "ModelType": "Heart",
@@ -969,225 +799,107 @@
       "QtTime": 0.4,
       "CqtTime": 0.19773180231718618
     },
-    "metabolism": {
-      "Name": "metabolism",
-      "Description": "metabolism model",
+    "Metabolism": {
+      "Name": "Metabolism",
+      "Description": "Metabolism model",
       "ModelType": "Metabolism",
       "IsEnabled": true,
-      "atp_need": 0.2,
-      "resp_q": 0.8,
-      "p_atm": 760,
-      "outside_temp": 20,
-      "body_temp": 37.0,
-      "active_Comps": [
-        { "comp": "RLB", "fvatp": 0.185 },
-        { "comp": "RUB", "fvatp": 0.2 },
-        { "comp": "COR", "fvatp": 0.05 },
-        { "comp": "AA", "fvatp": 0.005 },
-        { "comp": "AD", "fvatp": 0.01 }
+      "Vo2": 9.0,
+      "RespQ": 0.8,
+      "BodyTemp": 37.0,
+      "Comps": [
+        { "Name": "RLB", "FVo2": 0.185 },
+        { "Name": "RUB", "FVo2": 0.2 },
+        { "Name": "COR", "FVo2": 0.05 },
+        { "Name": "AA", "FVo2": 0.005 },
+        { "Name": "AD", "FVo2": 0.01 },
+        { "Name": "BR", "FVo2": 0.55 }
       ]
     },
-    "effector_heartrate": {
-      "Name": "ef_hr",
-      "Description": "effector of sensors on heartrate",
-      "ModelType": "SensorEffector",
-      "IsEnabled": true,
-      "sensor": "sns",
-      "effect_site": "ecg.heart_rate",
-      "reference": 135.0,
-      "gain": 1.3,
-      "preserve_mass": false,
-      "preserve_mass_from": ""
-    },
-    "effector_breathing": {
-      "Name": "ef_mv",
-      "Description": "effector of sensors on exhaled minute Volume",
-      "ModelType": "SensorEffector",
-      "IsEnabled": true,
-      "sensor": "cob",
-      "effect_site": "breathing.target_minute_Volume",
-      "reference": 0.63,
-      "gain": 0.02,
-      "preserve_mass": false,
-      "preserve_mass_from": ""
-    },
-    "cob": {
-      "Name": "cob",
-      "Description": "control of breathing",
-      "ModelType": "SensorIntegrator",
-      "IsEnabled": true,
-      "sensors": [
-        { "sensor": "chemoreceptor_ph", "magnitude": 1.0 },
-        { "sensor": "chemoreceptor_pco2", "magnitude": 0.8 },
-        { "sensor": "chemoreceptor_po2", "magnitude": 0.2 }
-      ]
-    },
-    "sns": {
-      "Name": "sns",
-      "Description": "sympathetic nervous system",
-      "ModelType": "SensorIntegrator",
-      "IsEnabled": true,
-      "sensors": [
-        { "sensor": "baroreceptor", "magnitude": 1.0 },
-        { "sensor": "temp", "magnitude": 1.0 }
-      ]
-    },
-    "baroreceptor": {
-      "Name": "baroreceptor",
-      "Description": "",
-      "ModelType": "Sensor",
-      "IsEnabled": true,
-      "sensor": "AA.pres",
-      "setpoint": 60.0,
-      "sensitivity": 0.1,
-      "time_constant": 5.0
-    },
-    "chemoreceptor_ph": {
-      "Name": "chemoreceptor_ph",
-      "Description": "",
-      "ModelType": "Sensor",
-      "IsEnabled": true,
-      "sensor": "AA.ph",
-      "setpoint": 7.39,
-      "sensitivity": -20.0,
-      "time_constant": 4.0
-    },
-    "chemoreceptor_pco2": {
-      "Name": "chemoreceptor_pco2",
-      "Description": "",
-      "ModelType": "Sensor",
-      "IsEnabled": true,
-      "sensor": "AA.pco2",
-      "setpoint": 40,
-      "sensitivity": 0.2,
-      "time_constant": 5.0
-    },
-    "chemoreceptor_po2": {
-      "Name": "chemoreceptor_po2",
-      "Description": "",
-      "ModelType": "Sensor",
-      "IsEnabled": true,
-      "sensor": "AA.po2",
-      "setpoint": 75,
-      "sensitivity": -0.1,
-      "time_constant": 5.0
-    },
-    "temperature_sensor": {
-      "Name": "temp",
-      "Description": "",
-      "ModelType": "Sensor",
-      "IsEnabled": true,
-      "sensor": "metabolism.body_temp",
-      "setpoint": 37,
-      "sensitivity": 0.1,
-      "time_constant": 10.0
-    },
-    "lungstretch": {
-      "Name": "lung_stretch",
-      "Description": "",
-      "ModelType": "Sensor",
-      "IsEnabled": true,
-      "sensor": "ALL.Vol",
-      "setpoint": 0.04,
-      "sensitivity": 0.1,
-      "time_constant": 5.0
-    },
-    "blood": {
+    "Blood": {
       "Name": "Blood",
       "Description": "blood composition model",
       "ModelType": "Blood",
       "IsEnabled": true,
       "Solutes": [
         {
-          "Name": "to2",
+          "Name": "To2",
           "Conc": 6.9,
           "Unit": "mmol/l"
         },
         {
-          "Name": "tco2",
+          "Name": "Tco2",
           "Conc": 27.18,
           "Unit": "mmol/l"
         },
         {
-          "Name": "hemoglobin",
-          "Conc": 10.0,
-          "Unit": "mmol/l"
-        },
-        {
-          "Name": "dpg",
-          "Conc": 5.0,
-          "Unit": "mmol/l"
-        },
-        {
-          "Name": "albumin",
+          "Name": "Alb",
           "Conc": 30.0,
           "Unit": "g/l"
         },
         {
-          "Name": "phosphates",
+          "Name": "Pi",
           "Conc": 1.5,
           "Unit": "mmol/l"
         },
         {
-          "Name": "uma",
+          "Name": "U",
           "Conc": 7.2,
           "Unit": "mmol/l"
         },
         {
-          "Name": "sodium",
+          "Name": "Na",
           "Conc": 138.0,
           "Unit": "mmol/l"
         },
         {
-          "Name": "potassium",
+          "Name": "K",
           "Conc": 4.0,
           "Unit": "mmol/l"
         },
         {
-          "Name": "calcium",
+          "Name": "Ca",
           "Conc": 1.0,
           "Unit": "mmol/l"
         },
         {
-          "Name": "magnesium",
+          "Name": "Mg",
           "Conc": 0.9,
           "Unit": "mmol/l"
         },
         {
-          "Name": "chloride",
+          "Name": "Cl",
           "Conc": 103,
           "Unit": "mmol/l"
         },
         {
-          "Name": "lactate",
+          "Name": "Lact",
           "Conc": 1.0,
           "Unit": "mmol/l"
         }
       ]
     },
-    "gas": {
+    "Gas": {
       "Name": "Gas",
       "Description": "gas composition model",
       "ModelType": "Gas",
       "IsEnabled": true,
-      "PresSTP": 760,
-      "TempSTP": 20,
       "Pres0": 760,
-      "InspiredAirAtPres0": {
+      "InspiredAir": {
         "Components": ["MOUTH"],
         "Fh2o": 0.0223,
         "Fo2": 0.205,
         "Fco2": 0.000392,
-        "Fn2": 0.772308,
-        "Temp": 20.0
+        "Fn2": 0.772308
       },
       "TempSettings": [
+        { "Name":  "MOUTH", "TargetTemp":  20.0 },
         { "Name":  "DS", "TargetTemp":  37.0 },
         { "Name":  "ALL", "TargetTemp":  37.0},
         { "Name":  "ALR", "TargetTemp":  37.0 }
       ]
     },
-    "breathing": {
+    "Breathing": {
       "Name": "Breathing",
       "Description": "spontaneous breathing model",
       "ModelType": "Breathing",
@@ -1201,152 +913,31 @@
       "VtRrRatio": 0.00038,
       "IeRatio": 0.30,
       "RespMusclePressure": 0,
-      "RmpGain": 15.0,
+      "RmpGain": 9.0,
       "Comps": ["CHEST_L", "CHEST_R"]
     },
-    "intrathoracic_pressure": {
-      "Name": "itp",
-      "Description": "intrathoracic pressure model",
-      "ModelType": "IntrathoracicPressure",
-      "IsEnabled": true,
-      "sources": ["CHEST_L", "CHEST_R"],
-      "targets": [
-        {
-          "Name": "AA",
-          "fraction": 0.3
-        },
-        {
-          "Name": "AAR",
-          "fraction": 0.3
-        },
-        {
-          "Name": "PA",
-          "fraction": 0.3
-        },
-        {
-          "Name": "PV",
-          "fraction": 0.3
-        },
-        {
-          "Name": "RA",
-          "fraction": 0.3
-        },
-        {
-          "Name": "RV",
-          "fraction": 0.3
-        },
-        {
-          "Name": "LA",
-          "fraction": 0.3
-        },
-        {
-          "Name": "LV",
-          "fraction": 0.3
-        },
-        {
-          "Name": "IVCI",
-          "fraction": 0.3
-        },
-        {
-          "Name": "SVC",
-          "fraction": 0.3
-        },
-        {
-          "Name": "LL",
-          "fraction": 0.3
-        },
-        {
-          "Name": "LR",
-          "fraction": 0.3
-        }
-      ]
-    },
-    "acidbase": {
+    "AcidBase": {
       "Name": "AcidBase",
       "Description": "",
       "ModelType": "AcidBase",
-      "IsEnabled": true
+      "IsEnabled": true,
+      "AlphaCo2P": 0.03067
     },
-    "oxygenation": {
+    "Oxygenation": {
       "Name": "Oxygenation",
       "Description": "",
       "ModelType": "Oxygenation",
-      "IsEnabled": true
+      "IsEnabled": true,
+      "Hemoglobin": 8.0,
+      "Dpg": 5.0
     },
-    "drugs": {
-      "Name": "drugs",
-      "Description": "",
-      "ModelType": "Drugs",
-      "IsEnabled": false
-    },
-    "kidneys": {
-      "Name": "kidneys",
-      "Description": "",
-      "ModelType": "Kidneys",
-      "IsEnabled": false
-    },
-    "environment": {
+    "Environment": {
       "Name": "Environment",
       "Description": "",
       "ModelType": "Environment",
-      "IsEnabled": false,
+      "IsEnabled": true,
       "PresAtm": 760,
-      "Temp": 20
-    },
-    "ecls": {
-      "Name": "ecls",
-      "Description": "",
-      "ModelType": "Ecls",
-      "IsEnabled": false
-    },
-    "lymphatics": {
-      "Name": "lymphatics",
-      "Description": "",
-      "ModelType": "Lymphatics",
-      "IsEnabled": false
-    },
-    "birth": {
-      "Name": "Birth",
-      "Description": "",
-      "ModelType": "Birth",
-      "IsEnabled": false
-    },
-    "placenta": {
-      "Name": "Placenta",
-      "Description": "",
-      "ModelType": "Placenta",
-      "IsEnabled": false
-    },
-    "mechanical_ventilator": {
-      "Name": "MechanicalVentilator",
-      "Description": "mechanical ventilator model",
-      "ModelType": "MechanicalVentilator",
-      "IsEnabled": false,
-      "ventilator_mode": 0,
-      "cycling_mode": 0,
-      "max_pip": 12,
-      "peep": 3,
-      "freq": 40,
-      "t_in": 0.4,
-      "fio2": 0.21,
-      "target_tidal_Volume": 0.0165,
-      "inspiratory_flow": 8,
-      "expiratory_flow": 20
-    },
-    "compressions": {
-      "Name": "Compressions",
-      "Description": "",
-      "ModelType": "Compressions",
-      "IsEnabled": false
-    },
-    "pda": {
-      "Name": "pda",
-      "Description": "",
-      "ModelType": "Pda",
-      "IsEnabled": false,
-      "diameter": 3.5,
-      "length": 10.0,
-      "viscosity": 5.5
+      "OutsideTemp": 20
     }
   }
 }

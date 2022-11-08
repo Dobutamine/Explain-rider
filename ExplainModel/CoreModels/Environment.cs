@@ -9,7 +9,7 @@ public class Environment: ICoreModel
     public string ModelType { get; set; } = "";
     public bool IsEnabled { get; set; }
     public double PresAtm { get; set; }
-    public double Temp { get; set; }
+    public double OutsideTemp { get; set; }
     private Model? _model;
     private bool _initialized;
 

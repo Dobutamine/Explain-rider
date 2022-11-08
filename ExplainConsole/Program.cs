@@ -21,17 +21,19 @@ if (explain.Initialized)
     // explain.DataCollector.AddToWatchList("AA", "Pres");
     // explain.DataCollector.AddToWatchList("ALL", "Po2");
     //
-    // explain.DataCollector.AddToWatchList("MOUTH", "Pres");
-    // explain.DataCollector.AddToWatchList("DS", "Pres");
-    // explain.DataCollector.AddToWatchList("ALL", "Pres");
+    // explain.DataCollector.AddToWatchList("MOUTH", "Po2");
+    // explain.DataCollector.AddToWatchList("DS_ALR", "Flow");
+    // explain.DataCollector.AddToWatchList("DS_ALL", "Flow");
+    // explain.DataCollector.AddToWatchList("AA", "Po2");
     //
-    // explain.DataCollector.AddToWatchList("ALL", "Pres");
-    // explain.DataCollector.AddToWatchList("ALR", "Pres");
-    //
-    explain.DataCollector.AddToWatchList("MOUTH", "Pco2");
-    explain.DataCollector.AddToWatchList("MOUTH", "Po2");
-    explain.DataCollector.AddToWatchList("ALL", "Pco2");
+    explain.DataCollector.AddToWatchList("AA", "Po2");
+    explain.DataCollector.AddToWatchList("DS", "Po2");
     explain.DataCollector.AddToWatchList("ALL", "Po2");
+    //
+    // explain.DataCollector.AddToWatchList("ALL", "Po2");
+    // explain.DataCollector.AddToWatchList("ALL", "Pco2");
+    // explain.DataCollector.AddToWatchList("LL", "Po2");
+    // explain.DataCollector.AddToWatchList("LL", "Pco2");
     //
     // explain.DataCollector.AddToWatchList("MOUTH", "Temp");
     // explain.DataCollector.AddToWatchList("DS", "Temp");
@@ -40,12 +42,12 @@ if (explain.Initialized)
 
 
     // set the data collector interval
-    explain.DataCollector.SetInterval(0.005);
+    explain.DataCollector.SetInterval(0.05);
     
     var prerun = explain.Calculate(5);
     
     // calculate 30 seconds
-    var modelOutput = explain.Calculate(60);
+    var modelOutput = explain.Calculate(240);
     
     // print the data
     // Model.PrintData(modelOutput.ModelData);

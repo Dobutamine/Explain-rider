@@ -21,8 +21,8 @@ public class GasResistor: ICoreModel
     
     private bool _initialized = false;
     private Model _model;
-    private IGasCompliance? _compFrom;
-    private IGasCompliance? _compTo;
+    private GasCompliance? _compFrom;
+    private GasCompliance? _compTo;
 
     public void InitModel(Model model)
     {
@@ -30,8 +30,8 @@ public class GasResistor: ICoreModel
         _model = model;
 
         // find the correct components in the component list
-        _compTo = (IGasCompliance)_model.Components.Find(i => i.Name == CompTo)!;
-        _compFrom = (IGasCompliance)_model.Components.Find(i => i.Name == CompFrom)!;
+        _compTo = (GasCompliance)_model.Components.Find(i => i.Name == CompTo)!;
+        _compFrom = (GasCompliance)_model.Components.Find(i => i.Name == CompFrom)!;
 
         // flag that the initialization is complete
         if (_compFrom != null && _compTo != null)

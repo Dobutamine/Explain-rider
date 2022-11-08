@@ -10,8 +10,7 @@ public class Blood: ICoreModel
     public bool IsEnabled { get; set; }
     public BloodCompound[] Solutes { get; set; } = Array.Empty<BloodCompound>();
     private Model? _model;
-    private bool _initialized;
-    
+
     public void InitModel(Model model)
     {
         // store a reference to the whole model
@@ -30,17 +29,8 @@ public class Blood: ICoreModel
                     break;
             }
         }
-        
-        // signal that the model component is initialized
-        _initialized = true;
     }
 
-    public void StepModel()
-    {
-        if (IsEnabled && _initialized)
-        {
-            CalcModel();
-        }
-    }
+    public void StepModel() { }
     public void CalcModel() { }
 }

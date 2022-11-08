@@ -41,7 +41,7 @@ public class Model
         ModelingStepsize = (double)(json["ModelingStepsize"] ?? 0.0005);
 
         // now start parsing this json objects component list
-        foreach (var child in json["components"]!)
+        foreach (var child in json["Components"]!)
         {
             // try to find out the model type
             if (child.First != null)

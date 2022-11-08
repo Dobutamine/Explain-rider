@@ -25,11 +25,25 @@ public class BloodTimeVaryingElastance: ICoreModel, ICompliance, IBloodComplianc
     public double ElMax { get; set; }
     public double ElK { get; set; }
     public double ActFactor { get; set; }
-
-
-    public BloodCompound[] Solutes { get; set; }
+    // oxygenation
+    public double Po2 { get; set; }
+    public double So2 { get; set; }
+    public double Hb { get; set; }
+    public double Dpg { get; set; }
+    public double To2 { get; set; }
+    public double Tco2 { get; set; }
     
-    private Model _model;
+    // acid base
+    public double Ph { get; set; }
+    public double Pco2 { get; set; }
+    public double Hco3 { get; set; }
+    public double Be { get; set; }
+    
+    // Solutes
+    public BloodCompound[] Solutes { get; set;  }= Array.Empty<BloodCompound>();
+    
+    
+    private Model? _model;
     private bool _initialized;
     private double _tempPresMax = -1000;
     private double _tempPresMin = 1000;
@@ -42,10 +56,7 @@ public class BloodTimeVaryingElastance: ICoreModel, ICompliance, IBloodComplianc
     {
         // store a reference to the whole model
         _model = model;
-        
-        // initialize an empty array of blood compounds
-        Solutes = Array.Empty<BloodCompound>();
-        
+
         // signal that the model component is initialized
         _initialized = true;
     }
@@ -114,7 +125,7 @@ public class BloodTimeVaryingElastance: ICoreModel, ICompliance, IBloodComplianc
             _tempVolMin = 1000;
         }
         // every model step the eval timer is increased with the modeling step size
-        _evalTimer += _model.ModelingStepsize;
+        if (_model != null) _evalTimer += _model.ModelingStepsize;
     }
     
     public void VolumeIn(double dVol, IBloodCompliance compFrom)
@@ -122,15 +133,16 @@ public class BloodTimeVaryingElastance: ICoreModel, ICompliance, IBloodComplianc
         // change the volume
         Vol += dVol;
         
-        // calculate the solute concentrations
+        // calculate the solutes
         for (var i = 0; i < Solutes.Length; i++)
         {
-            // calculate the amount of solute which is being transferred
             var dSol = (compFrom.Solutes[i].Conc - Solutes[i].Conc) * dVol;
-            
-            // calculate the change in concentration
             Solutes[i].Conc = ((Solutes[i].Conc * Vol) + dSol) / Vol;
         }
+
+        To2 = Solutes[0].Conc;
+        Tco2 = Solutes[1].Conc;
+
     }
 
     public double VolumeOut(double dVol)

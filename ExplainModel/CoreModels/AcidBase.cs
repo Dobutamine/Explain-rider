@@ -8,6 +8,7 @@ public class AcidBase : ICoreModel
   public string Description { get; set; } = "";
   public string ModelType { get; set; } = "";
   public bool IsEnabled { get; set; }
+  public double AlphaCo2P { get; set; }
 
   // set the brent root finding properties
   private readonly double _brentAccuracy = 1e-8;
@@ -19,7 +20,7 @@ public class AcidBase : ICoreModel
   private readonly double _kw = Math.Pow(10.0, -13.6) * 1000.0;
   private readonly double _kc = Math.Pow(10.0, -6.1) * 1000.0;
   private readonly double _kd = Math.Pow(10.0, -10.22) * 1000.0;
-  private readonly double _alphaCo2P = 0.03067;
+  
 
   // blood gas
   private double _tco2;
@@ -102,7 +103,7 @@ public class AcidBase : ICoreModel
     // calculate the plasma OH(-) concentration (water dissociation)
     _oh = _kw / h; // Eq. 7
     // calculate the pco2 of the plasma
-    _pco2 = _cco2 / _alphaCo2P; // Eq. 13
+    _pco2 = _cco2 / AlphaCo2P; // Eq. 13
     // calculate the pH
     _pH = -Math.Log10(h / 1000.0); // Eq. 9
     // calculate the weak acids (albumin and phosphates)
