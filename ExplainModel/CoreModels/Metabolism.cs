@@ -14,6 +14,7 @@ public class Metabolism: ICoreModel
     public Comp[] Comps { get; set; } = Array.Empty<Comp>();
     
     private Model? _model;
+    
     private bool _initialized;
     public List<ActiveComp> ActiveComps { get; set; } = new List<ActiveComp>();
     
@@ -65,8 +66,21 @@ public class Metabolism: ICoreModel
             {
                 activeComp.Comp.Solutes[0].Conc = 0;
             }
+            // get the tco2 from the blood compartment
+            var tco2 = activeComp.Comp.Solutes[1].Conc;
+            // calculate the change in co2 concentration in this step
+            var dTco2 = (vo2Step * activeComp.FVo2 * RespQ);
+            // calculate the new co2 concentration in blood
+            activeComp.Comp.Solutes[1].Conc = (tco2 * activeComp.Comp.Vol + dTco2) / activeComp.Comp.Vol;
+            // Guard against negative oxygen concentrations.
+            if (activeComp.Comp.Solutes[1].Conc < 0)
+            {
+                activeComp.Comp.Solutes[1].Conc = 0;
+            }
         }
     }
+    
+    public void Co2Storage() {}
 }
 
 public struct Comp
@@ -75,7 +89,7 @@ public struct Comp
     public double FVo2;
 }
 
-public struct ActiveComp
+public class ActiveComp
 {
     public string Name;
     public IBloodCompliance Comp;

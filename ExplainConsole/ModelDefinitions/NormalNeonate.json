@@ -766,8 +766,8 @@
       "CompBlood": "LL",
       "CompGas": "ALL",
       "IsEnabled": true,
-      "DifO2": 0.1,
-      "DifCo2": 0.1
+      "DifO2": 0.01,
+      "DifCo2": 0.01
     },
     "GASEX_LR": {
       "Name": "GASEX_LR",
@@ -805,7 +805,7 @@
       "ModelType": "Metabolism",
       "IsEnabled": true,
       "Vo2": 9.0,
-      "RespQ": 0.8,
+      "RespQ": 0.5,
       "BodyTemp": 37.0,
       "Comps": [
         { "Name": "RLB", "FVo2": 0.185 },

@@ -26,9 +26,8 @@ if (explain.Initialized)
     // explain.DataCollector.AddToWatchList("DS_ALL", "Flow");
     // explain.DataCollector.AddToWatchList("AA", "Po2");
     //
-    explain.DataCollector.AddToWatchList("AA", "Po2");
-    explain.DataCollector.AddToWatchList("DS", "Po2");
-    explain.DataCollector.AddToWatchList("ALL", "Po2");
+    explain.DataCollector.AddToWatchList("LL", "Pco2");
+    explain.DataCollector.AddToWatchList("ALL", "Pco2");
     //
     // explain.DataCollector.AddToWatchList("ALL", "Po2");
     // explain.DataCollector.AddToWatchList("ALL", "Pco2");
