@@ -69,6 +69,7 @@ public class GasExchanger: ICoreModel
         var po2Gas = _compGas.Po2;
         var pco2Gas = _compGas.Pco2;
         
+        
         // calculate the O2 flux from the blood to the gas compartment
         _fluxO2 = (po2Blood - po2Gas) * DifO2 * _model.ModelingStepsize;
         

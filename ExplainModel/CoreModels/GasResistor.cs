@@ -55,6 +55,9 @@ public class GasResistor: ICoreModel
 
     public void CalcModel()
     {
+        // reset the flow
+        Flow = 0;
+        
         // get the pressures from the connected compliances
         var pU = _compFrom!.Pres;
         var pD = _compTo!.Pres;

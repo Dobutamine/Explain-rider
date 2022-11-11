@@ -24,7 +24,6 @@
       "UVol": 0.0032,
       "ElBase": 28000,
       "ElK": 0
-      
     },
     "AD": {
       "Name": "AD",
@@ -35,7 +34,6 @@
       "UVol": 0.018,
       "ElBase": 10000,
       "ElK": 0
-      
     },
     "RLB": {
       "Name": "RLB",
@@ -46,7 +44,6 @@
       "UVol": 0.001,
       "ElBase": 25124,
       "ElK": 0
-      
     },
     "LS": {
       "Name": "LS",
@@ -57,7 +54,6 @@
       "UVol": 0.001,
       "ElBase": 25124,
       "ElK": 0
-      
     },
     "KID": {
       "Name": "KID",
@@ -68,7 +64,6 @@
       "UVol": 0.001,
       "ElBase": 25124,
       "ElK": 0
-      
     },
     "INT": {
       "Name": "INT",
@@ -79,7 +74,6 @@
       "UVol": 0.001,
       "ElBase": 25124,
       "ElK": 0
-      
     },
     "RUB": {
       "Name": "RUB",
@@ -90,7 +84,6 @@
       "UVol": 0.00105,
       "ElBase": 25124,
       "ElK": 0
-      
     },
     "BR": {
       "Name": "BR",
@@ -101,7 +94,6 @@
       "UVol": 0.00105,
       "ElBase": 25124,
       "ElK": 0
-      
     },
     "IVCI": {
       "Name": "IVCI",
@@ -112,7 +104,6 @@
       "UVol": 0.0109824,
       "ElBase": 780,
       "ElK": 0
-      
     },
     "IVCE": {
       "Name": "IVCE",
@@ -123,7 +114,6 @@
       "UVol": 0.05710848,
       "ElBase": 146,
       "ElK": 0
-      
     },
     "SVC": {
       "Name": "SVC",
@@ -134,7 +124,6 @@
       "UVol": 0.03624192,
       "ElBase": 230,
       "ElK": 0
-      
     },
     "PA": {
       "Name": "PA",
@@ -145,7 +134,6 @@
       "UVol": 0.0020523,
       "ElBase": 5000,
       "ElK": 0
-      
     },
     "LL": {
       "Name": "LL",
@@ -156,7 +144,6 @@
       "UVol": 0.00113603,
       "ElBase": 4398,
       "ElK": 0
-      
     },
     "RL": {
       "Name": "RL",
@@ -167,7 +154,6 @@
       "UVol": 0.00113603,
       "ElBase": 4398,
       "ElK": 0
-      
     },
     "PV": {
       "Name": "PV",
@@ -178,7 +164,6 @@
       "UVol": 0.00514553,
       "ElBase": 4535,
       "ElK": 0
-      
     },
     "LA": {
       "Name": "LA",
@@ -190,7 +175,6 @@
       "ElMin": 900,
       "ElMax": 1500,
       "ElK": 0
-      
     },
     "LV": {
       "Name": "LV",
@@ -202,7 +186,6 @@
       "ElMin": 500,
       "ElMax": 17000,
       "ElK": 0
-      
     },
     "RA": {
       "Name": "RA",
@@ -214,7 +197,6 @@
       "ElMin": 700,
       "ElMax": 1500,
       "ElK": 0
-      
     },
     "RV": {
       "Name": "RV",
@@ -226,7 +208,6 @@
       "ElMin": 500,
       "ElMax": 17000,
       "ElK": 0
-      
     },
     "COR": {
       "Name": "COR",
@@ -238,7 +219,6 @@
       "ElMin": 324675,
       "ElMax": 700000,
       "ElK": 0
-      
     },
     "AA_AAR": {
       "Name": "AA_AAR",
@@ -652,7 +632,6 @@
       "UVol": 1000000,
       "ElBase": 0.00076,
       "ElK": 0
-      
     },
     "DS": {
       "Name": "DS",
@@ -663,7 +642,6 @@
       "UVol": 0.005,
       "ElBase": 40000,
       "ElK": 0
-      
     },
     "ALL": {
       "Name": "ALL",
@@ -674,7 +652,6 @@
       "UVol": 0.0425,
       "ElBase": 400.0,
       "ElK": 0
-      
     },
     "ALR": {
       "Name": "ALR",
@@ -685,14 +662,15 @@
       "UVol": 0.0425,
       "ElBase": 400.0,
       "ElK": 0
-      
     },
     "CHEST_L": {
       "Name": "CHEST_L",
       "Description": "pleural space left",
       "ModelType": "Container",
       "IsEnabled": true,
-      "Comps": ["ALL"],
+      "Comps": [
+        "ALL"
+      ],
       "Vol": 0.05,
       "UVol": 0.065,
       "ElBase": 200.0,
@@ -703,7 +681,9 @@
       "Description": "pleural space right",
       "ModelType": "Container",
       "IsEnabled": true,
-      "Comps": ["ALR"],
+      "Comps": [
+        "ALR"
+      ],
       "Vol": 0.05,
       "UVol": 0.065,
       "ElBase": 200.0,
@@ -753,7 +733,12 @@
       "Description": "pericardium",
       "ModelType": "Container",
       "IsEnabled": true,
-      "Comps": ["RA", "RV", "LA", "LV"],
+      "Comps": [
+        "RA",
+        "RV",
+        "LA",
+        "LV"
+      ],
       "Vol": 0.0,
       "UVol": 0.0,
       "ElBase": 10,
@@ -784,11 +769,21 @@
       "Description": "heart ecg and activation",
       "ModelType": "Heart",
       "IsEnabled": true,
-      "AafRightTargets": ["RA"],
-      "AafLeftTargets": ["LA"],
-      "VafRightTargets": ["RV"],
-      "VafLeftTargets": ["LV"],
-      "Coronaries": ["COR"],
+      "AafRightTargets": [
+        "RA"
+      ],
+      "AafLeftTargets": [
+        "LA"
+      ],
+      "VafRightTargets": [
+        "RV"
+      ],
+      "VafLeftTargets": [
+        "LV"
+      ],
+      "Coronaries": [
+        "COR"
+      ],
       "HeartRate": 120,
       "HeartRateRef": 120,
       "VenticularEscapeRate": 40,
@@ -804,16 +799,34 @@
       "Description": "Metabolism model",
       "ModelType": "Metabolism",
       "IsEnabled": true,
-      "Vo2": 9.0,
+      "Vo2": 10.0,
       "RespQ": 0.5,
       "BodyTemp": 37.0,
       "Comps": [
-        { "Name": "RLB", "FVo2": 0.185 },
-        { "Name": "RUB", "FVo2": 0.2 },
-        { "Name": "COR", "FVo2": 0.05 },
-        { "Name": "AA", "FVo2": 0.005 },
-        { "Name": "AD", "FVo2": 0.01 },
-        { "Name": "BR", "FVo2": 0.55 }
+        {
+          "Name": "RLB",
+          "FVo2": 0.185
+        },
+        {
+          "Name": "RUB",
+          "FVo2": 0.2
+        },
+        {
+          "Name": "COR",
+          "FVo2": 0.05
+        },
+        {
+          "Name": "AA",
+          "FVo2": 0.005
+        },
+        {
+          "Name": "AD",
+          "FVo2": 0.01
+        },
+        {
+          "Name": "BR",
+          "FVo2": 0.55
+        }
       ]
     },
     "Blood": {
@@ -886,17 +899,31 @@
       "IsEnabled": true,
       "Pres0": 760,
       "InspiredAir": {
-        "Components": ["MOUTH"],
+        "Components": [
+          "MOUTH"
+        ],
         "Fh2o": 0.0223,
         "Fo2": 0.205,
         "Fco2": 0.000392,
         "Fn2": 0.772308
       },
       "TempSettings": [
-        { "Name":  "MOUTH", "TargetTemp":  20.0 },
-        { "Name":  "DS", "TargetTemp":  37.0 },
-        { "Name":  "ALL", "TargetTemp":  37.0},
-        { "Name":  "ALR", "TargetTemp":  37.0 }
+        {
+          "Name": "MOUTH",
+          "TargetTemp": 20.0
+        },
+        {
+          "Name": "DS",
+          "TargetTemp": 37.0
+        },
+        {
+          "Name": "ALL",
+          "TargetTemp": 37.0
+        },
+        {
+          "Name": "ALR",
+          "TargetTemp": 37.0
+        }
       ]
     },
     "Breathing": {
@@ -905,16 +932,35 @@
       "ModelType": "Breathing",
       "IsEnabled": true,
       "BreathingEnabled": true,
-      "RespRate": 35,
+      "RespRate": 40,
       "RefMinuteVolume": 0.63,
-      "RefTidalVolume": 0.018,
+      "RefTidalVolume": 0.01547,
       "TargetMinuteVolume": 0.63,
-      "TargetTidalVolume": 0.018,
+      "TargetTidalVolume": 0.01547,
       "VtRrRatio": 0.00038,
       "IeRatio": 0.30,
       "RespMusclePressure": 0,
       "RmpGain": 9.0,
-      "Comps": ["CHEST_L", "CHEST_R"]
+      "ExpTVSource": "MOUTH_DS",
+      "Targets": [
+        "CHEST_L",
+        "CHEST_R"
+      ],
+      "ChemoreceptorLocation": "AA",
+      "SetPointPh": 7.39,
+      "SensitivityPh": -0.2,
+      "TimeConstantPh": 5.0,
+      "EffectSizePh": 1.0,
+      "SetPointPo2": 70,
+      "SensitivityPo2": -15,
+      "TimeConstantPo2": 5.0,
+      "EffectSizePo2": 1.0,
+      "SetPointPco2": 40,
+      "SensitivityPco2": 5,
+      "TimeConstantPco2": 5.0,
+      "EffectSizePco2": 1.0,
+      "MaxMinuteVolume": 1.26,
+      "UpdateInterval": 0.015
     },
     "AcidBase": {
       "Name": "AcidBase",
@@ -939,27 +985,24 @@
       "PresAtm": 760,
       "OutsideTemp": 20
     },
-    "Baroreceptor": {
-      "Name": "Baroreceptor",
+    "AutonomicNervousSystem": {
+      "Name": "AutonomicNervousSystem",
       "Description": "",
-      "ModelType": "Sensor",
+      "ModelType": "AutonomicNervousSystem",
       "IsEnabled": true,
-      "InputModel": "AA",
-      "InputProperty": "Pres",
-      "SetPoint": 60,
-      "Sensitivity": 0.1,
-      "TimeConstant": 5.0,
-      "UpdateInterval": 0.015
-    },
-    "sns": {
-      "Name": "Sns",
-      "Description": "sympathetic nervous system",
-      "ModelType": "SensorIntegrator",
-      "IsEnabled": true,
-      "InputSensors": [
-        { "Name": "Baroreceptor", "Magnitude": 1.0 }
-      ],
-      "TimeConstant": 5.0,
+      "BaroreceptorLocation": "AA",
+      "ChemoreceptorLocation": "BRAIN",
+      "HeartModelName": "Heart",
+      "AcidBaseModelName": "AcidBase",
+      "OxygenationModelName": "Oxygenation",
+      "VagalTone": 0.1,
+      "SympatheticTone": 1.2,
+      "SetPointPres": 58,
+      "SensitivityPres": 15.0,
+      "TimeConstantPres": 2.0,
+      "EffectSizePres": 1.0,
+      "RefHeartRate": 120,
+      "MaxHeartRate": 220,
       "UpdateInterval": 0.015
     }
   }

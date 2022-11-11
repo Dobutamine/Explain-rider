@@ -11,6 +11,7 @@ public class Metabolism: ICoreModel
     public bool IsEnabled { get; set; }
     public double Vo2 { get; set; }
     public double RespQ { get; set; }
+    public double BodyTemp { get; set; }
     public Comp[] Comps { get; set; } = Array.Empty<Comp>();
     
     private Model? _model;

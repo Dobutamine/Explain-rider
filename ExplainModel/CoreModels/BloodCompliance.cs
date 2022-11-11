@@ -73,6 +73,7 @@ public class BloodCompliance: ICoreModel, ICompliance, IBloodCompliance
 
     public void CalcModel()
     {
+        
         // calculate the pressure depending on the elastance
         Pres = ElBase * (1 + ElK * (Vol - Uvol)) * (Vol - Uvol) + Pres0 + PresExt + PresCc + PresMus;
         
@@ -81,6 +82,9 @@ public class BloodCompliance: ICoreModel, ICompliance, IBloodCompliance
         Pres0 = 0;
         PresExt = 0;
         PresCc = 0;
+        
+        To2 = Solutes[0].Conc;
+        Tco2 = Solutes[1].Conc;
         
         // do the statistics
         CalcMinMax();
@@ -136,8 +140,7 @@ public class BloodCompliance: ICoreModel, ICompliance, IBloodCompliance
             Solutes[i].Conc = ((Solutes[i].Conc * Vol) + dSol) / Vol;
         }
         
-        To2 = Solutes[0].Conc;
-        Tco2 = Solutes[1].Conc;
+      
     }
 
     public double VolumeOut(double dVol)

@@ -86,6 +86,10 @@ public class BloodTimeVaryingElastance: ICoreModel, ICompliance, IBloodComplianc
         PresExt = 0;
         PresCc = 0;
         
+        
+        To2 = Solutes[0].Conc;
+        Tco2 = Solutes[1].Conc;
+        
         // evaluate
         CalcMinMax();
     }
@@ -140,8 +144,6 @@ public class BloodTimeVaryingElastance: ICoreModel, ICompliance, IBloodComplianc
             Solutes[i].Conc = ((Solutes[i].Conc * Vol) + dSol) / Vol;
         }
 
-        To2 = Solutes[0].Conc;
-        Tco2 = Solutes[1].Conc;
 
     }
 

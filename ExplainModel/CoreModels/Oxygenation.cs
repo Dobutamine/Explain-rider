@@ -39,6 +39,7 @@ public class Oxygenation: ICoreModel
 
         // signal that the model component is initialized
         _initialized = true;
+
     }
     public void StepModel() { }
     public void CalcModel() { }

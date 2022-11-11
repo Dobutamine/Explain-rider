@@ -139,14 +139,15 @@ public class GasCompliance: ICoreModel, ICompliance
     public void AddHeat()
     {
         // calculate a temperature change depending on the target temperature and the current temperature
-        var dT = (TargetTemp - Temp) * 0.00005;
+        var dT = (TargetTemp - Temp) * 0.0005;
         Temp += dT;
             
         // change to volume as the temperature changes
         if (Pres != 0)
         {
+            // as CTotal is in mmol/l we have convert it as the gas constant is in mol
             var dV = (CTotal * Vol * GasConstant * dT) / Pres;
-            Vol += dV;
+            Vol += (dV / 1000.0);
                 
             // guard against negative volumes
             if (Vol < 0)
@@ -175,7 +176,8 @@ public class GasCompliance: ICoreModel, ICompliance
             // as the water vapour also takes volume this is added to the compliance
             if (Pres != 0)
             {
-                Vol += ((GasConstant * (273.15 + Temp)) / Pres) * dH2O;
+                // as dH2O is in mmol/l we have convert it as the gas constant is in mol
+                Vol += (((GasConstant * (273.15 + Temp)) / Pres) * (dH2O / 1000));
             }
         }
     }
@@ -223,7 +225,7 @@ public class GasCompliance: ICoreModel, ICompliance
         
         // change temperature due to influx of gas
         var dTemp = (compFrom.Temp - Temp) * dVol;
-        Temp += dTemp;
+        Temp = ((Temp * Vol) + dTemp) / Vol;
 
     }
     
