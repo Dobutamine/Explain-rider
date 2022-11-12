@@ -9,39 +9,50 @@ public class AutonomicNervousSystem: ICoreModel
     public string ModelType { get; set; } = "";
     public bool IsEnabled { get; set; }
     public double UpdateInterval { get; set; } = 0.015;
-    public string BaroreceptorLocation { get; set; } = "";
+
+    public double Test1 { get; set; } = 0;
+    public double Test2 { get; set; } = 0;
+    public double Test3 { get; set; } = 0;
+    public double Test4 { get; set; } = 0;
+    
+    // sensors
     public string ChemoreceptorLocation { get; set; } = "";
-    public string AcidBaseModelName { get; set; } = "";
-    public string OxygenationModelName { get; set; } = "";
+    private IBloodCompliance _chemoreceptor;
+
+    public string BaroreceptorLocation { get; set; } = "";
+    private IBloodCompliance _baroreceptor;
+
+    private double _baroreceptorSignal = 0.5;
+    public double SetBaro { get; set; }
+    public double SensBaro { get; set; }
+    public double TcHpBaro { get; set; }
+    public double GHpBaro { get; set; }
+
+    public double GContBaro { get; set; }
+    public double TcContBaro { get; set; }
+    public double GUvolBaro { get; set; }
+    public double TcUvolBaro { get; set; }
+    public double GResBaro { get; set; }
+    public double TcResBaro { get; set; }
+    
+    // Targets
     public string HeartModelName { get; set; } = "";
-    public double SetPointPres { get; set; } 
-    public double SensitivityPres { get; set; } 
-    public double TimeConstantPres { get; set; } 
-    public double PresSensorOutput { get; set; }
-    public double SympatheticOutput { get; set; }
-    public double VagalOutput { get; set; }
-    public double EffectSizePres { get; set; }
-    public double AnsInput { get; set; }
-    public double MaxHeartRate { get; set; }
-    public double RefHeartRate { get; set; }
+    private Heart? _heart;
+    public string[] SystemicResistors { get; set; } = Array.Empty<string>();
+    private List<BloodResistor> _systemicResistors = new List<BloodResistor>();
+    private string [] UnstressedVolumes { get; set; } = Array.Empty<string>();
+    private List<IBloodCompliance> _unstressedVolumes = new List<IBloodCompliance>();
+
     
-    public double VagalTone { get; set; }
-    public double SympatheticTone { get; set; }
-    
+    // helpers
+    public string AcidBaseModelName { get; set; } = "";
+    private AcidBase _ab;
+    public string OxygenationModelName { get; set; } = "";
+    private Oxygenation _oxy;
+
     private Model? _model;
     private bool _initialized;
     private double _t;
-    private IBloodCompliance _baroreceptor;
-    private IBloodCompliance _chemoreceptor;
-    private Heart _heart;
-    private AcidBase _ab;
-    private Oxygenation _oxy;
-    private Sensor _presSensor;
-    private Sensor _phSensor;
-    private Sensor _po2Sensor;
-    private Sensor _pco2Sensor;
-    private Sensor _lungStretchSensor;
-
     private double _updateTimer;
 
     public void InitModel(Model model)
@@ -53,24 +64,31 @@ public class AutonomicNervousSystem: ICoreModel
         _t = _model.ModelingStepsize;
         
         
-        // find the chemo en baro receptor source
+        // find the chemo rececptor and baroreceptor source
         foreach (var comp in _model.Components)
         {
             _chemoreceptor = (IBloodCompliance)_model.Components.Find(i => i.Name == ChemoreceptorLocation)!;
             _baroreceptor = (IBloodCompliance)_model.Components.Find(i => i.Name == BaroreceptorLocation)!;
         }
         
-        // initialize the sensors
-        _presSensor = new Sensor(setPoint: SetPointPres, sensitivity: SensitivityPres, timeConstant: TimeConstantPres,
-            updateInterval: UpdateInterval);
+        
+        // find the effector sites
+        _heart = (Heart)_model.Components.Find(i => i.Name == HeartModelName)!;
+        foreach (var systemicResistor in SystemicResistors)
+        {
+            var res = (BloodResistor)_model.Components.Find(i => i.Name == systemicResistor)!;
+            _systemicResistors.Add(res);
+        }
+        foreach (var unstressedVolume in UnstressedVolumes)
+        {
+            var uvol = (IBloodCompliance)_model.Components.Find(i => i.Name == unstressedVolume)!;
+            _unstressedVolumes.Add(uvol);
+        }
 
         // store a reference to the heart, acid base and oxygenation models
         _ab = (AcidBase)_model.Components.Find(i => i.Name == AcidBaseModelName)!;
         _oxy = (Oxygenation)_model.Components.Find(i => i.Name == OxygenationModelName)!;
-        _heart = (Heart)_model.Components.Find(i => i.Name == HeartModelName)!;
         
-        // signal that the model component is initialized
-        _initialized = true;
         
         // signal that the model component is initialized
         _initialized = true;
@@ -97,40 +115,23 @@ public class AutonomicNervousSystem: ICoreModel
 
     private void CalcAutonomicControl()
     {
-        // Adapted from Ursino et al.
-        
-        // Interaction between carotid baro regulation and the pulsating heart: a mathematical model Mauro Ursino
-        // Am J Physiol Heart Circ Physiol 275:H1733-H1747, 1998. ;
-        
-        // Get the arterial baro receptor firing rate (between 0 - 1) with time constant and sensitivity
-        PresSensorOutput =  _presSensor.Update(_baroreceptor.Pres);
-        
-        // combine the different sensor outputs to 1 output
-        if ((EffectSizePres) > 0)
-        {
-            AnsInput = PresSensorOutput * EffectSizePres / EffectSizePres;
-        }
-        else
-        {
-            AnsInput = 0.5;
-        }
-        
-        // Feed the pressure sensor output into the sympathetic and vagal (parasympathetic) nerves and calculate the activity
-        SympatheticOutput = Math.Exp(-SympatheticTone * PresSensorOutput);
-        VagalOutput = Math.Exp((PresSensorOutput - 0.5) / VagalTone) / (1 + Math.Exp((PresSensorOutput - 0.5) / VagalTone));
-        
-        
-        
-        // // calculate the target minute volume
-        // var newHeartRate = RefHeartRate + (AnsOutput - 0.5) * MaxHeartRate;
-        //
-        // // guard against zero
-        // if (newHeartRate < 10)
-        // {
-        //     newHeartRate = 10;
-        // }
-        //
-        // _heart.HeartRate = newHeartRate;
+        // calculate the acid base and oxygenation properties of chemoreceptor site
+        _ab.CalcAcidBase(_chemoreceptor.Solutes[1].Conc);
+        _oxy.CalcOxygenation(_chemoreceptor.Solutes[0].Conc);
 
+        // https://www.ncbi.nlm.nih.gov/books/NBK538172/
+        // A decrease in mean arterial pressure causes a drop in de receptor activity (firing rate)
+        // In neonates the most accurate mean is given by MAP = DBP + (0.466 * (SBP-DBP))
+        var pres = _baroreceptor.PresMin  + 0.466 * (_baroreceptor.PresMax - _baroreceptor.PresMin);
+        // calculate the sensor activity normalized to a range of 0 to 1 with an operating point at OpBaro (where activity = 0.5) and a slope determined by SensBaro
+        var activity = (Math.Exp((pres - SetBaro) / SensBaro)) / (1 + Math.Exp((pres - SetBaro) / SensBaro));
+        
+        // apply the time constant of the hp effect
+        _baroreceptorSignal = UpdateInterval * ((1.0 / TcHpBaro) * (-_baroreceptorSignal + activity)) + _baroreceptorSignal;
+
+        // calculate the effector
+        _heart.HeartPeriodChangeAns = (_baroreceptorSignal - 0.5) * GHpBaro;
+
+        Test1 = _baroreceptorSignal;
     }
 }

@@ -21,7 +21,11 @@ public class Heart: ICoreModel
     public string[] VafLeftTargets { get; set; }
     public string[] Coronaries { get; set; }
     public double HeartRate { get; set; }
+    private double _heartPeriod = 0;
     public double HeartRateRef { get; set; }
+    public double HeartPeriodChangeAns { get; set; } = 0;
+    public double HeartPeriodChangeTemp { get; set; } = 0;
+    
     public double VenticularEscapeRate { get; set; }
     public double RhythmType { get; set; }
     public double PqTime { get; set; }
@@ -106,10 +110,16 @@ public class Heart: ICoreModel
 
             // calculate the SA node interval in seconds depending on the heart rate
             _saNodePeriod = 60.0;
-            if (HeartRate > 0)
+            
+            // calculate the heart period
+            _saNodePeriod = (60.0 / HeartRateRef) + HeartPeriodChangeAns + HeartPeriodChangeTemp;
+            
+            if (_saNodePeriod < 0.2)
             {
-                _saNodePeriod = 60.0 / HeartRate;
+                _saNodePeriod = 0.2;
             }
+
+            HeartRate = 60.0 / _saNodePeriod;
 
             // has the sa node time elapsed?
             if (_saNodeTimer > _saNodePeriod)

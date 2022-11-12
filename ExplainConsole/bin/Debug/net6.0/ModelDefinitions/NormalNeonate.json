@@ -991,16 +991,16 @@
       "ModelType": "AutonomicNervousSystem",
       "IsEnabled": true,
       "BaroreceptorLocation": "AA",
-      "ChemoreceptorLocation": "BRAIN",
+      "ChemoreceptorLocation": "BR",
+      "SetBaro": 53,
+      "SensBaro": 10.0,
+      "TcHpBaro": 5.0,
+      "GHpBaro": 1.0,
       "HeartModelName": "Heart",
+      "UnstressedVolumes": [],
+      "SystemicResistors": [],
       "AcidBaseModelName": "AcidBase",
       "OxygenationModelName": "Oxygenation",
-      "SetPointPres": 58,
-      "SensitivityPres": 15.0,
-      "TimeConstantPres": 2.0,
-      "EffectSizePres": 1.0,
-      "RefHeartRate": 120,
-      "MaxHeartRate": 220,
       "UpdateInterval": 0.015
     }
   }

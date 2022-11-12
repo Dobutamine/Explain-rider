@@ -18,12 +18,12 @@ if (explain.Initialized)
 {
     // add parameter to watch list
    
-    // explain.DataCollector.AddToWatchList("Heart", "HeartRate");
+    explain.DataCollector.AddToWatchList("Heart", "HeartRate");
     // explain.DataCollector.AddToWatchList("AA", "Pres");
     
-    explain.DataCollector.AddToWatchList("AutonomicNervousSystem", "PresSensorOutput");
-    explain.DataCollector.AddToWatchList("AutonomicNervousSystem", "SympatheticOutput");
-    explain.DataCollector.AddToWatchList("AutonomicNervousSystem", "VagalOutput");
+    //explain.DataCollector.AddToWatchList("AutonomicNervousSystem", "Test1");
+    // explain.DataCollector.AddToWatchList("AutonomicNervousSystem", "Test2");
+    // explain.DataCollector.AddToWatchList("AutonomicNervousSystem", "Test3");
     //
     // explain.DataCollector.AddToWatchList("ALL", "Po2");
     // explain.DataCollector.AddToWatchList("ALL", "Pco2");
@@ -37,13 +37,13 @@ if (explain.Initialized)
 
 
     // set the data collector interval
-    explain.DataCollector.SetInterval(0.05);
+    explain.DataCollector.SetInterval(0.005);
     
-    Console.WriteLine("Model stabilisation pre-run of 180 seconds.");
-    var prerun = explain.Calculate(180);
+    //Console.WriteLine("Model stabilisation pre-run of 180 seconds.");
+    //var prerun = explain.Calculate(180);
     
     // calculate 30 seconds
-    var modelOutput = explain.Calculate(10);
+    var modelOutput = explain.Calculate(180);
     
     // print the data
     // Model.PrintData(modelOutput.ModelData);
