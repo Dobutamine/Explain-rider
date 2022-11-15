@@ -10,9 +10,7 @@ public class Sensor
     public double TimeConstant { get; set; }
     public double Output { get; set; }
     public double UpdateInterval { get; set; }
-
     
-
     public Sensor(double setPoint, double sensitivity, double timeConstant, double updateInterval)
     {
         SetPoint = setPoint;

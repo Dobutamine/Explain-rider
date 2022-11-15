@@ -18,15 +18,16 @@ if (explain.Initialized)
 {
     // add parameter to watch list
    
-    explain.DataCollector.AddToWatchList("Heart", "HeartRate");
+    // explain.DataCollector.AddToWatchList("Heart", "HeartRate"); 
     // explain.DataCollector.AddToWatchList("AA", "Pres");
     
     //explain.DataCollector.AddToWatchList("AutonomicNervousSystem", "Test1");
     // explain.DataCollector.AddToWatchList("AutonomicNervousSystem", "Test2");
     // explain.DataCollector.AddToWatchList("AutonomicNervousSystem", "Test3");
     //
-    // explain.DataCollector.AddToWatchList("ALL", "Po2");
-    // explain.DataCollector.AddToWatchList("ALL", "Pco2");
+    explain.DataCollector.AddToWatchList("AA", "Po2");
+    explain.DataCollector.AddToWatchList("AA", "Pco2");
+    explain.DataCollector.AddToWatchList("Breathing", "RespRate");
     // explain.DataCollector.AddToWatchList("LL", "Po2");
     // explain.DataCollector.AddToWatchList("LL", "Pco2");
     //
