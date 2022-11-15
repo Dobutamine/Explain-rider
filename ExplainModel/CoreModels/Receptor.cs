@@ -3,7 +3,7 @@ using Explain.Helpers;
 
 namespace Explain.CoreModels;
 
-public class Sensor
+public class Receptor
 {
     public double SetPoint { get; set; }
     public double Sensitivity { get; set; }
@@ -11,7 +11,7 @@ public class Sensor
     public double Output { get; set; }
     public double UpdateInterval { get; set; }
     
-    public Sensor(double setPoint, double sensitivity, double timeConstant, double updateInterval)
+    public Receptor(double setPoint, double sensitivity, double timeConstant, double updateInterval)
     {
         SetPoint = setPoint;
         Sensitivity = sensitivity;

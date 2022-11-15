@@ -997,7 +997,6 @@
       "GVePo2": 0.0,
       "TcHpPo2": 2.0,
       "GHpPo2": 0.0,
-      
       "SetPco2": 40,
       "MinPco2": 25,
       "MaxPco2": 75,
@@ -1005,25 +1004,28 @@
       "GVePco2": 0.02,
       "TcHpPco2": 2.0,
       "GHpPco2": 0.0,
-      
       "SetPh": 7.40,
       "MinPh": 6.90,
       "MaxPh": 7.70,
       "TcVePh": 2.0,
       "GVePh": -2.0,
-      
       "SetLungStretch": 53,
       "MinLungStretch": 53,
       "MaxLungStretch": 53,
       "TcVeLungStretch": 2.0,
       "GVeLungStretch": 0.0,
-      
       "HeartModelName": "Heart",
       "BreathingModelName": "Breathing",
       "LungCompartments": ["ALL", "ALR"],
       "SystemicResistors": [],
       "UnstressedVolumes": [],
       "UpdateInterval": 0.015
+    },
+    "MyocardialOxygenBalance": {
+      "Name": "MyocardialOxygenBalance",
+      "Description": "",
+      "ModelType": "MyocardialOxygenBalance",
+      "IsEnabled": true
     }
   }
 }
