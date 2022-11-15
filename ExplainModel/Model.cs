@@ -24,6 +24,7 @@ public class Model
     // declare some helpers
     public readonly DataCollector DataCollector;
     public readonly HardwareInterface HardwareInterface;
+    public readonly DataInterface DataInterface;
 
     public Model(string modelDefinition)
     {
@@ -78,6 +79,9 @@ public class Model
 
         // add a hardware interface (e.g. Paul)
         HardwareInterface = new HardwareInterface(this);
+        
+        // add a mode interface for easy data extraction
+        DataInterface = new DataInterface(this);
 
         // instantiate the model engine
         _modelEngine = new ModelEngine(this);

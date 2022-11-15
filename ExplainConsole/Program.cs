@@ -45,10 +45,7 @@ if (explain.Initialized)
     
     // calculate 30 seconds
     var modelOutput = explain.Calculate(180);
-    
-    // print the data
-    // Model.PrintData(modelOutput.ModelData);
-    
+
     // print the performance
     Model.PrintPerformance(modelOutput.Perf);
     
