@@ -88,8 +88,8 @@ public class ModelEngine
         {
             component.StepModel();
         }
-
-        // update the data collector
+        
+        // update the analyzer and data interface
         _model.DataCollector.Update();
 
         // update the hardware interface

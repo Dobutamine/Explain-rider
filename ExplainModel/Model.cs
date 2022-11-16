@@ -22,9 +22,8 @@ public class Model
     private readonly ModelEngine _modelEngine;
 
     // declare some helpers
-    public readonly DataCollector DataCollector;
     public readonly HardwareInterface HardwareInterface;
-    public readonly DataInterface DataInterface;
+    public readonly DataCollector DataCollector;
 
     public Model(string modelDefinition)
     {
@@ -73,15 +72,14 @@ public class Model
         {
             model.InitModel(this);
         }
-
-        // add a data collector
+        
+        
+        // add an analyzer
         DataCollector = new DataCollector(this);
 
         // add a hardware interface (e.g. Paul)
         HardwareInterface = new HardwareInterface(this);
-        
-        // add a mode interface for easy data extraction
-        DataInterface = new DataInterface(this);
+
 
         // instantiate the model engine
         _modelEngine = new ModelEngine(this);
@@ -109,38 +107,17 @@ public class Model
         // stop the realtime model
         _modelEngine.Stop();
     }
+    
 
-    public List<DataEntry> GetModelData()
-    {
-        return DataCollector.GetModelData();
-    }
-
-    public ModelOutput Calculate(double timeToCalculate = 10)
+    public void Calculate(double timeToCalculate = 10)
     {
         // calculate a given period of time and get the performance data
         var perf = _modelEngine.Calculate(timeToCalculate);
-
-        // get the model data
-        var modelData = DataCollector.GetModelData();
-
-        // combine the two data structures
-        var modelOutput = new ModelOutput
-        {
-            Perf = perf,
-            ModelData = modelData
-        };
-
-        // return the performance data
-        return modelOutput;
+        
+        PrintPerformance(perf);
+        
     }
-
-    public static void PrintData(List<DataEntry> data)
-    {
-        foreach (var dataItem in data)
-        {
-            Console.WriteLine("At {0, -8 } sec: {1, -25} = {2} ", Math.Round(dataItem.Time, 4), dataItem.Name, dataItem.Value);
-        }
-    }
+    
     public static void PrintPerformance(Performance perf)
     {
         Console.WriteLine("Modeling of {0} seconds in {1} steps took {2} seconds with {3} ms per model step.", perf.TimeInterval, perf.NoSteps, (perf.CalcTimeTotal / 1000f),Math.Round(perf.StepTime, 5));

@@ -610,6 +610,19 @@
       "RBack": 500,
       "Rk": 0
     },
+    "VSD": {
+      "Name": "VSD",
+      "Description": "ventricular septal defect",
+      "ModelType": "BloodResistor",
+      "IsEnabled": false,
+      "NoFlow": false,
+      "NoBackFlow": false,
+      "CompFrom": "LV",
+      "CompTo": "RV",
+      "Rfor": 5000,
+      "RBack": 5000,
+      "Rk": 0
+    },
     "IPS": {
       "Name": "IPS",
       "Description": "lung shunt",
@@ -810,10 +823,6 @@
         {
           "Name": "RUB",
           "FVo2": 0.2
-        },
-        {
-          "Name": "COR",
-          "FVo2": 0.05
         },
         {
           "Name": "AA",
@@ -1021,10 +1030,33 @@
       "UnstressedVolumes": [],
       "UpdateInterval": 0.015
     },
-    "MyocardialOxygenBalance": {
-      "Name": "MyocardialOxygenBalance",
+    "Myocardium": {
+      "Name": "Myocardium",
       "Description": "",
-      "ModelType": "MyocardialOxygenBalance",
+      "ModelType": "Myocardium",
+      "IsEnabled": true,
+      "HeartModelName": "Heart",
+      "LeftVentricleName": "LV",
+      "RightVentricleName": "RV",
+      "CoronariesName": "COR",
+      "SetTo2": 0.015,
+      "MinTo2": 0.0,
+      "MaxTo2": 10.0,
+      "TcHpTo2": 5,
+      "TcContTo2": 10,
+      "GHpTo2": 0,
+      "GContTo2": 0
+    },
+    "MechanicalVentilator": {
+      "Name": "MechanicalVentilator",
+      "Description": "",
+      "ModelType": "MechanicalVentilator",
+      "IsEnabled": true
+    },
+    "ChestCompressions": {
+      "Name": "ChestCompressions",
+      "Description": "",
+      "ModelType": "ChestCompressions",
       "IsEnabled": true
     }
   }

@@ -21,6 +21,8 @@ public class Breathing: ICoreModel
     public double RespMusclePressure { get; set; }
     public double RmpGain { get; set; } = 1;
     public string ExpTVSource { get; set; }
+    
+    public bool DcStartBreath { get; set; } = false;
 
     public string[]? Targets { get; set; }
 
@@ -96,6 +98,8 @@ public class Breathing: ICoreModel
         // check whether it is time to start a breath
         if (_breathTimer > _breathInterval)
         {
+            // signal the datacollector
+            DcStartBreath = true;
             
             // reset the breath timer
             _breathTimer = 0;

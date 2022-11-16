@@ -25,6 +25,7 @@ public class Heart: ICoreModel
     public double HeartRateRef { get; set; }
     public double HeartPeriodChangeAns { get; set; } = 0;
     public double HeartPeriodChangeTemp { get; set; } = 0;
+    public double HeartPeriodChangeMob { get; set; } = 0;
     
     public double VenticularEscapeRate { get; set; }
     public double RhythmType { get; set; }
@@ -33,6 +34,8 @@ public class Heart: ICoreModel
     public double QrsTime { get; set; }
     public double QtTime { get; set; }
     public double CqtTime { get; set; }
+
+    public bool DcStartHeartBeat { get; set; } = false;
     
     // private fields
     private Model _model;
@@ -112,7 +115,7 @@ public class Heart: ICoreModel
             _saNodePeriod = 60.0;
             
             // calculate the heart period
-            _saNodePeriod = (60.0 / HeartRateRef) + HeartPeriodChangeAns + HeartPeriodChangeTemp;
+            _saNodePeriod = (60.0 / HeartRateRef) + HeartPeriodChangeAns + HeartPeriodChangeTemp + HeartPeriodChangeMob;
             
             if (_saNodePeriod < 0.2)
             {
@@ -146,6 +149,8 @@ public class Heart: ICoreModel
                     _qrsRunning = true;
                     // reset the ventricular activation curve
                     NccVentricular = -1;
+                    // signal that the ventricular contractin starts
+                    DcStartHeartBeat = true;
                     // increase the measured qrs counter with 1 beat
                     _measuredQrsCounter += 1;
                 }
